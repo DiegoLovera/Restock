@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "609418753795",
+    "firebase_url": "https://restock-b5c8c.firebaseio.com",
+    "project_id": "restock-b5c8c",
+    "storage_bucket": "restock-b5c8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609418753795:android:388a894b01eccc06",
+        "android_client_info": {
+          "package_name": "com.lovera.diego"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609418753795-7oah5apicm750ap33dmbtg91a8p4g5d5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWfzBXaAz5jdh3RGPWIn2N51w46Odaurk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609418753795:android:d525ffc3960a652f",
+        "android_client_info": {
+          "package_name": "com.lovera.diego.restock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609418753795-u21qtto8g90mk1p5js6k1d8mg96m1gjn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lovera.diego.restock",
+            "certificate_hash": "a000d612956de4151513a30b4d91380f64f45bca"
+          }
+        },
+        {
+          "client_id": "609418753795-7oah5apicm750ap33dmbtg91a8p4g5d5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWfzBXaAz5jdh3RGPWIn2N51w46Odaurk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "609418753795-7oah5apicm750ap33dmbtg91a8p4g5d5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

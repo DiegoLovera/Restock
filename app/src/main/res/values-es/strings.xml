@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Restock</string>
+    <string name="activity_login_email_hint">Correo electronico</string>
+    <string name="activity_login_password_hint">Contraseña</string>
+    <string name="activity_login_login_button">Iniciar sesión</string>
+    <string name="login_activity_signup_button">¿No tienes una cuenta aun? Registrate</string>
+    <string name="activity_login_email_error">ingresa un correo electronico valido</string>
+    <string name="activity_login_email_password_error">Ingresa la contraseña</string>
+</resources>

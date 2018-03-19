@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Restock</string>
     <string name="activity_login_email_hint">Email</string>
@@ -6,6 +7,4 @@
     <string name="login_activity_signup_button">Don\'t have an account yet? Sign Up.</string>
     <string name="activity_login_email_error">Enter valid email address</string>
     <string name="activity_login_email_password_error">Enter the password</string>
-    <string name="facebook_app_id">1943884392593066</string>
-    <string name="fb_login_protocol_scheme">fb1943884392593066</string>
 </resources>
