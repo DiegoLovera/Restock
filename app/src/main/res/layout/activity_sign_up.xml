@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context="com.lovera.diego.restock.LoginActivity">
+    tools:context="com.lovera.diego.restock.SignUpActivity">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -17,22 +17,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:contentDescription="TODO"
-            app:srcCompat="@drawable/logo_dummy_restock"
-            tools:ignore="ContentDescription,HardcodedText" />
-
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/loginActivityTextInputLayoutEmail"
+            android:id="@+id/signUpActivityTextInputLayoutEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/loginActivityTextInputEditEmail"
+                android:id="@+id/signUpActivityTextInputEditEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/activity_login_email_hint"
@@ -41,13 +33,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/loginActivityTextInputLayoutPassword"
+            android:id="@+id/signUpActivityTextInputLayoutPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/loginActivityTextInputEditPassword"
+                android:id="@+id/signUpActivityTextInputEditPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/activity_login_password_hint"
@@ -56,44 +48,15 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/loginActivityLoginButton"
+            android:id="@+id/signUpActivityLoginButton"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/ripple_button"
             android:elevation="2dp"
-            android:text="@string/activity_login_login_button"
+            android:text="@string/activity_sign_up_signup_button"
             android:textColor="@color/primaryTextColor" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_horizontal"
-            android:text="OR" />
-
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:elevation="2dp" />
-
-        <Button
-            android:id="@+id/loginActivitySignUpButton"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:elevation="2dp"
-            android:text="@string/login_activity_signup_button"
-            android:textColor="@color/primaryLightColor"
-            android:textSize="12sp" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
