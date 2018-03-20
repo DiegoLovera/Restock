@@ -7,4 +7,6 @@
     <string name="login_activity_signup_button">Don\'t have an account yet? Sign Up.</string>
     <string name="activity_login_email_error">Enter valid email address</string>
     <string name="activity_login_email_password_error">Enter the password</string>
+    <string name="activity_login_verify_email_toast">please verify your email address</string>
+    <string name="activity_sign_up_signup_button">Sign Up</string>
 </resources>

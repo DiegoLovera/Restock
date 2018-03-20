@@ -32,13 +32,18 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //region fields
     private EditText loginActivityEditEmail, loginActivityEditPassword;
     private TextInputLayout loginActivityLayoutEmail, loginActivityLayoutPassword;
-    private Button loginActivityButtonLogin;
+    private Button loginActivityButtonLogin, loginActivityButtonSignUp;
     private LoginButton login_button_facebook;
     private FirebaseAuth mAuth;
     private CallbackManager callbackManager;
+    public static FirebaseUser ACTUAL_USER;
+    //endregion
 
+    //Activity life cycle
+    //region onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
         login_button_facebook.setReadPermissions("email", "public_profile");
-        login_button_facebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        login_button_facebook.registerCallback(callbackManager,new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 //Log.d(TAG, "facebook:onSuccess:" + loginResult);
@@ -73,7 +78,9 @@ public class LoginActivity extends AppCompatActivity {
         loginActivityEditPassword = findViewById(R.id.loginActivityTextInputEditPassword);
         loginActivityLayoutEmail = findViewById(R.id.loginActivityTextInputLayoutEmail);
         loginActivityLayoutPassword = findViewById(R.id.loginActivityTextInputLayoutPassword);
+
         loginActivityButtonLogin = findViewById(R.id.loginActivityLoginButton);
+        loginActivityButtonSignUp = findViewById(R.id.loginActivitySignUpButton);
 
         loginActivityEditEmail.addTextChangedListener(new MyTextWatcher(loginActivityEditEmail));
         loginActivityEditPassword.addTextChangedListener(new MyTextWatcher(loginActivityEditPassword));
@@ -84,17 +91,34 @@ public class LoginActivity extends AppCompatActivity {
                 login();
             }
         });
+        loginActivityButtonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+            }
+        });
     }
+    //endregion
+    //region onStart
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
+    }
+    //endregion
 
+    //Facebook login
+    //region onActivityResult
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
-
+    //endregion
+    //region handleFacebookAccessToken
     private void handleFacebookAccessToken(AccessToken token) {
         //Log.d(TAG, "handleFacebookAccessToken:" + token);
-
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -103,8 +127,9 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            ACTUAL_USER = mAuth.getCurrentUser();
+                            Intent i = new Intent(LoginActivity.this,
+                                    MainActivity.class);
                             startActivity(i);
                             //updateUI(user);
                         } else {
@@ -114,12 +139,13 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
-
-                        // ...
                     }
                 });
     }
+    //endregion
 
+    //Email login
+    //region login
     private void login() {
         if (!validateEmail()) {
             return;
@@ -129,15 +155,18 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        mAuth.signInWithEmailAndPassword(loginActivityEditEmail.getText().toString(), loginActivityEditPassword.getText().toString())
+        mAuth.signInWithEmailAndPassword(loginActivityEditEmail.getText().toString(),
+                loginActivityEditPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(i);
+                            ACTUAL_USER = mAuth.getCurrentUser();
+                            if (ACTUAL_USER != null) {
+                                startActivity(new Intent(LoginActivity.this,
+                                        MainActivity.class));
+                            }
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -149,14 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
-    }
-
+    //endregion
     //region validateEmail
     private boolean validateEmail() {
         String email = loginActivityEditEmail.getText().toString().trim();
