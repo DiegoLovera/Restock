@@ -2,7 +2,7 @@
     <string name="app_name">Restock</string>
     <string name="activity_login_email_hint">Email</string>
     <string name="activity_login_password_hint">Password</string>
-    <string name="activity_login_login_button">Login</string>
+    <string name="activity_login_login_button">Sign In</string>
     <string name="login_activity_signup_button">Don\'t have an account yet? Sign Up.</string>
     <string name="activity_login_email_error">Enter valid email address</string>
     <string name="activity_login_email_password_error">Enter the password</string>
@@ -10,4 +10,13 @@
     <string name="fb_login_protocol_scheme" translatable="false">fb1943884392593066</string>
     <string name="activity_login_verify_email_toast">Please verify your email address</string>
     <string name="activity_sign_up_signup_button">Sign Up</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="activity_main_title">Stock</string>
 </resources>

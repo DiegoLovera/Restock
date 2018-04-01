@@ -8,14 +8,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -25,7 +31,11 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText signUpActivityEditEmail, signUpActivityEditPassword;
     private TextInputLayout signUpActivityLayoutEmail, signUpActivityLayoutPassword;
     private Button signUpActivitySignUpButton;
+    private LoginButton signUpFacebookButton;
+    private CallbackManager callbackManager;
 
+    //Activity lifecycle
+    //region onCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +49,29 @@ public class SignUpActivity extends AppCompatActivity {
 
         signUpActivitySignUpButton = findViewById(R.id.signUpActivityLoginButton);
 
+        signUpFacebookButton = findViewById(R.id.sign_up_button_facebook);
+        callbackManager = CallbackManager.Factory.create();
+        signUpFacebookButton.setReadPermissions("email", "public_profile");
+        signUpFacebookButton.registerCallback(callbackManager,new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                //Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                //Log.d(TAG, "facebook:onCancel");
+                // ...
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                //Log.d(TAG, "facebook:onError", error);
+                // ...
+            }
+        });
+
         signUpActivitySignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,7 +80,8 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
+    //endregion
+    //region onStart
     @Override
     public void onStart() {
         super.onStart();
@@ -55,7 +89,45 @@ public class SignUpActivity extends AppCompatActivity {
         //FirebaseUser currentUser = mAuth.getCurrentUser();
         //updateUI(currentUser);
     }
-
+    //endregion
+    //Facebook SignUp
+    //region handleFacebookAccessToken
+    private void handleFacebookAccessToken(AccessToken token) {
+        //Log.d(TAG, "handleFacebookAccessToken:" + token);
+        //TODO: Al iniciar sesión con facebook debemos validar que ya haya ingresado toda la información necesaria para conituar en casa de una compra
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            //Log.d(TAG, "signInWithCredential:success");
+                            RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
+                            Intent i = new Intent(SignUpActivity.this,
+                                    MainActivity.class);
+                            startActivity(i);
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                        }
+                    }
+                });
+    }
+    //endregion
+    //region onActivityResult
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+    //endregion
+    //SignUp
+    //region createAccount
     public void createAccount(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -64,7 +136,7 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "createUserWithEmail:success");
-                            LoginActivity.ACTUAL_USER = mAuth.getCurrentUser();
+                            RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
                             //updateUI(user);
@@ -78,4 +150,5 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
     }
+    //endregion
 }

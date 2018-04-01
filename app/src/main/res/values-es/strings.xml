@@ -9,4 +9,5 @@
     <string name="activity_login_email_password_error">Ingresa la contraseña</string>
     <string name="activity_login_verify_email_toast">"Por favor verifique su dirección de correo electrónico "</string>
     <string name="activity_sign_up_signup_button">Registrarse</string>
+    <string name="activity_main_title">Stock</string>
 </resources>

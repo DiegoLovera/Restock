@@ -1,0 +1,135 @@
+package com.lovera.diego.restock.models;
+
+public class Product {
+
+    private String AlcoholPercentage;
+    private String Brand;
+    private String Description;
+    private String GoesWith;
+    private String Grape;
+    private String ImageURL;
+    private String Name;
+    private String PlaceOfOrigin;
+    private String Price;
+    private String Quantity;
+    private String Type;
+    private String Year;
+    private String Uuid;
+
+    public String getUuid() {
+        return Uuid;
+    }
+
+    public void setUuid(String uuid) {
+        Uuid = uuid;
+    }
+
+    public String getTypeUuid() {
+        return TypeUuid;
+    }
+
+    public void setTypeUuid(String typeUuid) {
+        TypeUuid = typeUuid;
+    }
+
+    private String TypeUuid;
+
+    public String getAlcoholPercentage() {
+        return AlcoholPercentage;
+    }
+
+    public void setAlcoholPercentage(String alcoholPercentage) {
+        AlcoholPercentage = alcoholPercentage;
+    }
+
+    public String getBrand() {
+        return Brand;
+    }
+
+    public void setBrand(String brand) {
+        Brand = brand;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public String getGoesWith() {
+        return GoesWith;
+    }
+
+    public void setGoesWith(String goesWith) {
+        GoesWith = goesWith;
+    }
+
+    public String getGrape() {
+        return Grape;
+    }
+
+    public void setGrape(String grape) {
+        Grape = grape;
+    }
+
+    public String getImageURL() {
+        return ImageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        ImageURL = imageURL;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getPlaceOfOrigin() {
+        return PlaceOfOrigin;
+    }
+
+    public void setPlaceOfOrigin(String placeOfOrigin) {
+        PlaceOfOrigin = placeOfOrigin;
+    }
+
+    public String getPrice() {
+        return Price;
+    }
+
+    public void setPrice(String price) {
+        Price = price;
+    }
+
+    public String getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        Quantity = quantity;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
+
+    public String getYear() {
+        return Year;
+    }
+
+    public void setYear(String year) {
+        Year = year;
+    }
+
+
+
+}
