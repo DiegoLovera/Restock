@@ -6,6 +6,16 @@ public class Category {
     private String Uuid;
     private String Name;
 
+    public Category(){
+
+    }
+
+    public Category(String imageUrl, String uuid, String name){
+        this.ImageUrl = imageUrl;
+        this.Uuid = uuid;
+        this.Name = name;
+    }
+
     public String getName() {
         return Name;
     }

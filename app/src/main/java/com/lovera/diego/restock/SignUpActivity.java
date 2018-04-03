@@ -15,6 +15,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -93,20 +94,23 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = signUpActivityEditPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(SignUpActivity.this, "Enter email address!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this,
+                            "Enter email address!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(SignUpActivity.this, "Enter password!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this,
+                            "Enter password!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (password.length() < 8) {
-                    Toast.makeText(SignUpActivity.this, "Password too short, enter minimum 8 characters!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this,
+                            "Password too short, enter minimum 8 characters!",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else {
-                    createAccount(email,
-                            password);
+                    createAccount(email, password);
                 }
 
             }
@@ -136,14 +140,12 @@ public class SignUpActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "signInWithCredential:success");
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
+                            LoginManager.getInstance().logOut();
                             Intent i = new Intent(SignUpActivity.this,
                                     MainActivity.class);
                             startActivity(i);
                             //updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
-
                                 Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
@@ -167,36 +169,25 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "createUserWithEmail:success");
-
                             //-------------------------------------------------------------------------------//
                             // Insertar el correo del usuario en la base de datos
                             // Se obtiene el codigo de usario actual que se acaba de crear y se asigna a currentUser
                             currentUser = mAuth.getCurrentUser();
-
                             //Se almacena el Uid del usuario en la variable userId
                             String userId = currentUser.getUid();
-
                             User user = new User(signUpActivityEditEmail.getText().toString());
-
                             //Se especifica que se va a insertar en el nodo "User" bajo el userId del usuario actual
                             mRef = database.getReference().child("User").child(userId);
                             //Se inserta el objeto user de tipo User
                             mRef.setValue(user);
                             //------------------------------------------------------------------------------------//
-
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
                             //updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "createUserWithEmail:failure", task.getException());
-
                             Toast.makeText(SignUpActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });

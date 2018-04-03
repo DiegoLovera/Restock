@@ -58,7 +58,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         TextView mProductPrice;
         TextView mProductDescription;
         Button mButtonAdd;
-        Spinner mSpinnerQuantity;
+        Button mButtonMore;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -66,16 +66,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             this.mProductPrice = itemView.findViewById(R.id.ProductItemPrice);
             this.mProductDescription = itemView.findViewById(R.id.ProductItemDescription);
             this.mButtonAdd = itemView.findViewById(R.id.ProductItemAdd);
-            this.mSpinnerQuantity = itemView.findViewById(R.id.ProductItemSpinnerQuantity);
-
-            String[] arraySpinner = new String[] {
-                    "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "More"
-            };
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(itemView.getContext(),
-                    android.R.layout.simple_spinner_item, arraySpinner);
-            adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
-            mSpinnerQuantity.setAdapter(adapter);
+            this.mButtonMore = itemView.findViewById(R.id.ProductItemMore);
 
             this.mButtonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override

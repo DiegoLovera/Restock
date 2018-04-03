@@ -1,5 +1,6 @@
 package com.lovera.diego.restock;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,7 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.lovera.diego.restock.adapters.MainItemAdapter;
 import com.lovera.diego.restock.adapters.ProductItemAdapter;
 import com.lovera.diego.restock.adapters.TypeItemAdapter;
@@ -28,7 +37,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainItemAdapter.ItemClickListener, TypeItemAdapter.ItemClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainItemAdapter.ItemClickListener,
+        TypeItemAdapter.ItemClickListener {
 
     private RecyclerView mRecyclerView;
     private MainItemAdapter mMainItemAdapter;
@@ -37,6 +47,12 @@ public class MainActivity extends AppCompatActivity
     private ImageView mNavHeaderProfilePicture;
     private TextView mNavHeaderProfileName;
     private TextView mNavHeaderProfileEmail;
+    private ArrayList<Category> mCategories = new ArrayList<>();
+    private ArrayList<Type> mTypes = new ArrayList<>();
+    private ArrayList<Product> mProducts = new ArrayList<>();
+
+    private Category mCategorySelected = new Category();
+    private Type mTypeSelected = new Type();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,36 +60,34 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //region llenado de categorias
-        Category category1 = new Category();
-        category1.setName("Beer");
-        Category category2 = new Category();
-        category2.setName("Wine");
-        Category category3 = new Category();
-        category3.setName("Ice");
-
-        ArrayList<Category> categories = new ArrayList<>();
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
-        //endregion
-
-
         mRecyclerView = findViewById(R.id.ContentMainRecyclerView);
-        int numberOfColumns = 2;
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        mMainItemAdapter = new MainItemAdapter(this, categories);
-        mMainItemAdapter.setClickListener(this);
-        mRecyclerView.setAdapter(mMainItemAdapter);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Category").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                mCategories.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()){
+                        Category category = categorySnapshot.getValue(Category.class);
+                        category.setUuid(categorySnapshot.getKey());
+                        mCategories.add(category);
+                    }
+                    setUpCategoriesAdapter();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No categories",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                // ...
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -95,43 +109,88 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
-    public void onCategoryItemClick(View view, int position) {
-        //TODO: Aqui hacer el filtrado de los productos pasandole parametros segun la categoria que se haya elegido al siguiente adapter
-        mMainItemAdapter.getItem(position);
-        Type type1 = new Type();
-        type1.setName("Handcraft");
-        Type type2 = new Type();
-        type2.setName("Oscura");
-        Type type3 = new Type();
-        type3.setName("Clara");
-        ArrayList<Type> types = new ArrayList<>();
-        types.add(type1);
-        types.add(type2);
-        types.add(type3);
-        mTypeItemAdapter = new TypeItemAdapter(this, types);
+    private void setUpCategoriesAdapter(){
+        mMainItemAdapter = new MainItemAdapter(this, mCategories);
+        mMainItemAdapter.setClickListener(this);
+        mRecyclerView.setAdapter(mMainItemAdapter);
+    }
+    private void setUpTypesAdapter(){
+        mTypeItemAdapter = new TypeItemAdapter(this, mTypes);
         mTypeItemAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mTypeItemAdapter);
     }
 
+    private void setUpProductsAdapter(){
+        mProductItemAdapter = new ProductItemAdapter(this, mProducts);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        mRecyclerView.setAdapter(mProductItemAdapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onCategoryItemClick(View view, int position) {
+        //TODO: Aqui hacer el filtrado de los productos pasandole parametros segun la categoria que se haya elegido al siguiente adapter
+        mCategorySelected = mMainItemAdapter.getItem(position);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child("Type")
+                .orderByChild("Category")
+                .equalTo(mCategorySelected.getUuid());
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mTypes.clear();
+                if (dataSnapshot.exists()) {
+                    getSupportActionBar().setTitle(mCategorySelected.getName());
+                    for (DataSnapshot typeSnapshot : dataSnapshot.getChildren()) {
+                        Type type = typeSnapshot.getValue(Type.class);
+                        type.setUuid(typeSnapshot.getKey());
+                        mTypes.add(type);
+                    }
+                    setUpTypesAdapter();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No types", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     @Override
     public void onTypeItemClick(View view, int position) {
-        mTypeItemAdapter.getItem(position);
-        //region llenado de productos
-        Product product1 = new Product();
-        product1.setName("Sol");
-        product1.setPrice("300");
-        product1.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta enim vitae enim luctus iaculis. Donec pretium placerat volutpat. ");
-        Product product2 = new Product();
-        product2.setName("Corona");
-        product2.setPrice("200");
-        product2.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta enim vitae enim luctus iaculis. Donec pretium placerat volutpat. ");
-        ArrayList<Product> products = new ArrayList<>();
-        products.add(product1);
-        products.add(product2);
-        //endregion
-        mProductItemAdapter = new ProductItemAdapter(this, products);
-        mRecyclerView.setAdapter(mProductItemAdapter);
+        mTypeSelected = mTypeItemAdapter.getItem(position);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference.child("Product").orderByChild("Type").equalTo(mTypeSelected.getUuid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mProducts.clear();
+                if (dataSnapshot.exists()) {
+                    getSupportActionBar().setTitle(mTypeSelected.getName());
+                    for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
+                        Product product = productSnapshot.getValue(Product.class);
+                        product.setUuid(productSnapshot.getKey());
+                        mProducts.add(product);
+                    }
+                    setUpProductsAdapter();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No products", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -141,11 +200,16 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else if (mRecyclerView.getAdapter() == mMainItemAdapter){
             super.onBackPressed();
-            mRecyclerView.setAdapter(mMainItemAdapter);
+
         } else if (mRecyclerView.getAdapter() == mTypeItemAdapter){
+            getSupportActionBar().setTitle("Stock");
             mRecyclerView.setAdapter(mMainItemAdapter);
+
         } else if (mRecyclerView.getAdapter() == mProductItemAdapter){
+            getSupportActionBar().setTitle(mCategorySelected.getName());
+            mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
             mRecyclerView.setAdapter(mTypeItemAdapter);
+
         } else {
             super.onBackPressed();
         }
@@ -188,9 +252,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -199,10 +262,11 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            RestockApp.ACTUAL_USER = null;
+            startActivity(new Intent(this, LandingActivity.class));
         }
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

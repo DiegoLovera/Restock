@@ -3,7 +3,7 @@ package com.lovera.diego.restock.models;
 public class Type {
 
     private String Name;
-    private String CategoryUuid;
+    private String Uuid;
     private String ImageUrl;
 
     public String getName() {
@@ -14,12 +14,12 @@ public class Type {
         Name = name;
     }
 
-    public String getCategoryUuid() {
-        return CategoryUuid;
+    public String getUuid() {
+        return Uuid;
     }
 
-    public void setCategoryUuid(String categoryUuid) {
-        CategoryUuid = categoryUuid;
+    public void setUuid(String uuid) {
+        Uuid = uuid;
     }
 
     public String getImageUrl() {

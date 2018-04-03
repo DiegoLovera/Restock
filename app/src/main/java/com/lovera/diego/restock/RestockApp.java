@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RestockApp extends AppCompatActivity {
@@ -20,7 +21,13 @@ public class RestockApp extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        startActivity(new Intent(this, LandingActivity.class));
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null){
+            ACTUAL_USER = mAuth.getCurrentUser();
+            startActivity(new Intent(this, MainActivity.class));
+        } else{
+            startActivity(new Intent(this, LandingActivity.class));
+        }
     }
 
     @Override
