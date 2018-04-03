@@ -13,7 +13,28 @@
         <item name="colorAccent">@color/primaryLightColor</item>
     </style>
 
-    <item name="visible" type="id"/>
-    <item name="masked" type="id"/>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+
+    <style name="FlatButtonRipple">
+        <item name="android:background">@drawable/ripple_flat_button</item>
+        <item name="android:textColor">@color/primaryLightColor</item>
+    </style>
+
+    <style name="ColorButtonRipple">
+        <item name="android:background">@drawable/ripple_button</item>
+        <item name="android:elevation">2dp</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@color/com_facebook_button_background_color</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
