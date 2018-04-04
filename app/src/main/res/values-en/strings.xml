@@ -10,4 +10,6 @@
     <string name="activity_sign_up_signup_button">Sign Up</string>
     <string name="activity_login_login_button">Sign In</string>
     <string name="activity_main_title">Stock</string>
+    <string name="error_out_of_stock">Out of stock</string>
+    <string name="msg_activity_login_or">Or</string>
 </resources>

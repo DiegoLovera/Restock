@@ -19,47 +19,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.ViewHolder> {
-
+    //region Fields
     private ArrayList<Product> mData;
     private LayoutInflater mInflater;
+    //endregion
 
-    // data is passed into the constructor
+    //region Constructors
     public ProductItemAdapter(Context context, ArrayList<Product> data) {
             this.mInflater = LayoutInflater.from(context);
             this.mData = data;
     }
+    //endregion
 
-    // inflates the cell layout from xml when needed
+    //region onCreateViewHolder
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = mInflater.inflate(R.layout.recyclerview_product_item, parent, false);
             return new ViewHolder(view);
     }
-
-    // binds the data to the textview in each cell
+    //endregion
+    //region onBindViewHolder
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Product actualProduct = mData.get(position);
             holder.mProductName.setText(actualProduct.getName());
             holder.mProductPrice.setText(actualProduct.getPrice());
             holder.mProductDescription.setText(actualProduct.getDescription());
     }
-
-    // total number of cells
+    //endregion
+    //region getItemCount
     @Override
     public int getItemCount() {
             return mData.size();
     }
+    //endregion
 
-    // stores and recycles views as they are scrolled off screen
+    //region Class ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        //region Fields
         TextView mProductName;
         TextView mProductPrice;
         TextView mProductDescription;
         Button mButtonAdd;
         Button mButtonMore;
-
+        //endregion
+        //region Constructors
         ViewHolder(View itemView) {
             super(itemView);
             this.mProductName = itemView.findViewById(R.id.ProductItemName);
@@ -74,18 +79,14 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                     //TODO: ADD ACTION TO DE ADD BUTTON
                 }
             });
-
         }
-
+        //endregion
+        //region onClick
         @Override
         public void onClick(View v) {
 
         }
+        //endregion
     }
-
-    // convenience method for getting data at click position
-//    String getItem(int id) {
-//        //return mData[id];
-//    }
-
+    //endregion
 }

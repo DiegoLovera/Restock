@@ -14,67 +14,74 @@ import com.lovera.diego.restock.models.Type;
 import java.util.ArrayList;
 
 public class TypeItemAdapter extends RecyclerView.Adapter<TypeItemAdapter.ViewHolder> {
-
+    //region Fields
     private ArrayList<Type> mData;
     private LayoutInflater mInflater;
     private TypeItemAdapter.ItemClickListener mClickListener;
+    //endregion
 
-    // data is passed into the constructor
+    //region Constructors
     public TypeItemAdapter(Context context, ArrayList<Type> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
+    //endregion
 
-    // inflates the cell layout from xml when needed
+    //region onCreateViewHolder
     @NonNull
     @Override
-    public TypeItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TypeItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.recyclerview_type_item, parent, false);
         return new TypeItemAdapter.ViewHolder(view);
     }
-
-    // binds the data to the textview in each cell
+    //endregion
+    //region onBindViewHolder
     @Override
-    public void onBindViewHolder(TypeItemAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TypeItemAdapter.ViewHolder holder, int position) {
         Type actualType = mData.get(position);
         holder.mTypeTittle.setText(actualType.getName());
     }
-
-    // total number of cells
+    //endregion
+    //region getItemCount
     @Override
     public int getItemCount() {
         return mData.size();
     }
+    //endregion
+    //region getItem
+    public Type getItem(int id) {
+        return mData.get(id);
+    }
+    //endregion
+    //region setClickListener
+    public void setClickListener(TypeItemAdapter.ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+    //endregion
 
-
-    // stores and recycles views as they are scrolled off screen
+    //region Interface ItemClickListener
+    public interface ItemClickListener {
+        void onTypeItemClick(View view, int position);
+    }
+    //endregion
+    //region Class ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        //region Fields
         TextView mTypeTittle;
-
+        //endregion
+        //region Constructors
         ViewHolder(View itemView) {
             super(itemView);
             mTypeTittle = itemView.findViewById(R.id.TypeItemTittle);
             itemView.setOnClickListener(this);
         }
-
+        //endregion
+        //region onClick
         @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onTypeItemClick(view, getAdapterPosition());
         }
+        //endregion
     }
-
-    // convenience method for getting data at click position
-    public Type getItem(int id) {
-        return mData.get(id);
-    }
-
-    // allows clicks events to be caught
-    public void setClickListener(TypeItemAdapter.ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onTypeItemClick(View view, int position);
-    }
+    //endregion
 }

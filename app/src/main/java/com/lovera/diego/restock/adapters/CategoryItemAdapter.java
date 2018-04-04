@@ -12,67 +12,76 @@ import com.lovera.diego.restock.R;
 import com.lovera.diego.restock.models.Category;
 import java.util.ArrayList;
 
-public class MainItemAdapter extends RecyclerView.Adapter<MainItemAdapter.ViewHolder> {
+public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapter.ViewHolder> {
+    //region Fields
     private ArrayList<Category> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    //endregion
 
-    // data is passed into the constructor
-    public MainItemAdapter(Context context, ArrayList<Category> data) {
+    //region Constructors
+    public CategoryItemAdapter(Context context, ArrayList<Category> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
+    //endregion
 
-    // inflates the cell layout from xml when needed
+    //region onCreateViewHolder
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recyclerview_main_item, parent, false);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.recyclerview_category_item, parent, false);
         return new ViewHolder(view);
     }
-
-    // binds the data to the textview in each cell
+    //endregion
+    //region onBindViewHolder
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Category actualCategory = mData.get(position);
         holder.mCategoryTittle.setText(actualCategory.getName());
     }
-
-    // total number of cells
+    //endregion
+    //region getItemCount
     @Override
     public int getItemCount() {
         return mData.size();
     }
+    //endregion
+    //region getItem
+    public Category getItem(int id) {
+        return mData.get(id);
+    }
+    //endregion
+    //region setClickListener
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+    //endregion
 
-
-    // stores and recycles views as they are scrolled off screen
+    //region Interface ItemClickListener
+    public interface ItemClickListener {
+        void onCategoryItemClick(View view, int position);
+    }
+    //endregion
+    //region Class ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        //region Fields
         TextView mCategoryTittle;
+        //endregion
 
+        //region Constructor
         ViewHolder(View itemView) {
             super(itemView);
             mCategoryTittle = itemView.findViewById(R.id.MainItemTittle);
             itemView.setOnClickListener(this);
         }
-
+        //endregion
+        //region onClick
         @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onCategoryItemClick(view, getAdapterPosition());
         }
+        //endregion
     }
-
-    // convenience method for getting data at click position
-    public Category getItem(int id) {
-        return mData.get(id);
-    }
-
-    // allows clicks events to be caught
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onCategoryItemClick(View view, int position);
-    }
+    //endregion
 }
