@@ -20,7 +20,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/ProductItemImage"
+                android:id="@+id/image_product_item"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/nav_header_height"
                 app:srcCompat="@drawable/side_nav_bar" />

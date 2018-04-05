@@ -53,6 +53,8 @@
         <activity
             android:name=".LandingActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>

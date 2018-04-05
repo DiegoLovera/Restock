@@ -7,7 +7,7 @@ public class Product {
     private String Description;
     private String GoesWith;
     private String Grape;
-    private String ImageURL;
+    private String Image;
     private String Name;
     private String PlaceOfOrigin;
     private String Price;
@@ -23,16 +23,6 @@ public class Product {
     public void setUuid(String uuid) {
         Uuid = uuid;
     }
-
-    public String getTypeUuid() {
-        return TypeUuid;
-    }
-
-    public void setTypeUuid(String typeUuid) {
-        TypeUuid = typeUuid;
-    }
-
-    private String TypeUuid;
 
     public String getAlcoholPercentage() {
         return AlcoholPercentage;
@@ -74,12 +64,12 @@ public class Product {
         Grape = grape;
     }
 
-    public String getImageURL() {
-        return ImageURL;
+    public String getImage() {
+        return Image;
     }
 
-    public void setImageURL(String imageURL) {
-        ImageURL = imageURL;
+    public void setImage(String image) {
+        Image = image;
     }
 
     public String getName() {

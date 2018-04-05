@@ -12,4 +12,14 @@
     <string name="activity_main_title">Stock</string>
     <string name="error_out_of_stock">Agotado</string>
     <string name="msg_activity_login_or">O</string>
+    <string name="title_drawer_profile">Perfil</string>
+    <string name="action_settings">Configuraciones</string>
+    <string name="title_drawer_sign_out">Cerrar sesión</string>
+    <string name="title_drawer_settings">Configuración</string>
+    <string name="title_drawer_terms">Términos y política de privacidad</string>
+    <string name="title_drawer_history">Historial</string>
+    <string name="title_fragment_product_description">Descripción</string>
+    <string name="title_fragment_product_goes">Acompañalo con</string>
+    <string name="title_fragment_product_grape">Uva</string>
+    <string name="title_fragment_product_year">Año de origen</string>
 </resources>

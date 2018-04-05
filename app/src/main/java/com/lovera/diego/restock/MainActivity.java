@@ -1,6 +1,8 @@
 package com.lovera.diego.restock;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -30,10 +32,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.lovera.diego.restock.adapters.CategoryItemAdapter;
 import com.lovera.diego.restock.adapters.ProductItemAdapter;
 import com.lovera.diego.restock.adapters.TypeItemAdapter;
+import com.lovera.diego.restock.common.ImageRoundCorners;
 import com.lovera.diego.restock.models.Category;
 import com.lovera.diego.restock.models.Product;
 import com.lovera.diego.restock.models.Type;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity
     private TypeItemAdapter mTypeItemAdapter;
     private ProductItemAdapter mProductItemAdapter;
     private Toolbar mToolbar;
+    private NavigationView mNavigationView;
     private ArrayList<Category> mCategories = new ArrayList<>();
     private ArrayList<Type> mTypes = new ArrayList<>();
     private ArrayList<Product> mProducts = new ArrayList<>();
@@ -115,14 +120,18 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         //endregion
         //region NavigationView setup
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
         //endregion
     }
     //endregion
     //region onStart
     @Override
     protected void onStart() {
+        int size = mNavigationView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            mNavigationView.getMenu().getItem(i).setChecked(false);
+        }
         super.onStart();
     }
     //endregion
@@ -151,6 +160,8 @@ public class MainActivity extends AppCompatActivity
         ImageView mNavHeaderProfilePicture = findViewById(R.id.NavHeaderProfilePicture);
         Picasso.get()
                 .load(RestockApp.ACTUAL_USER.getPhotoUrl())
+                .resize(150, 150)
+                .transform(new ImageRoundCorners())
                 .error(R.drawable.logo_dummy_restock)
                 .into(mNavHeaderProfilePicture);
 
@@ -178,20 +189,20 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
+        if (id == R.id.nav_profile) {
+            startActivity(new Intent(this, ProfileInformationActivity.class));
+        } else if (id == R.id.nav_history) {
+            startActivity(new Intent(this, HistoryActivity.class));
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
             RestockApp.ACTUAL_USER = null;
             startActivity(new Intent(this, LandingActivity.class));
+        } else if (id == R.id.nav_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+        } else if (id == R.id.nav_privacy) {
+            Intent i = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://momcare.online/Privacy/terminosycondiciones.html"));
+            startActivity(i);
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
