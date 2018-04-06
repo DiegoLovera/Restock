@@ -29,5 +29,8 @@
     <string name="title_fragment_product_goes">Goes with</string>
     <string name="title_fragment_product_grape">Grape</string>
     <string name="title_fragment_product_year">Year of origin</string>
+    <string name="title_product_quantity">Quantity</string>
+    <string name="action_product_next">OK</string>
+    <string name="action_product_cancel">Cancel</string>
 
 </resources>

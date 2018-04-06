@@ -7,16 +7,29 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.lovera.diego.restock.models.Order;
+import com.lovera.diego.restock.models.OrderContent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RestockApp extends AppCompatActivity {
     //region Fields
     public static FirebaseUser ACTUAL_USER;
+    public static Order ACTUAL_ORDER;
+    public static List<OrderContent> ACTUAL_ORDER_CONTENT_LIST;
     //endregion
 
     //region onCreate
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ACTUAL_ORDER == null){
+            ACTUAL_ORDER = new Order();
+        }
+        if (ACTUAL_ORDER_CONTENT_LIST == null){
+            ACTUAL_ORDER_CONTENT_LIST = new ArrayList<>();
+        }
     }
     //endregion
     //region onStart

@@ -8,6 +8,7 @@ public class Product {
     private String GoesWith;
     private String Grape;
     private String Image;
+    private String Detail;
     private String Name;
     private String PlaceOfOrigin;
     private String Price;
@@ -15,6 +16,15 @@ public class Product {
     private String Type;
     private String Year;
     private String Uuid;
+
+
+    public String getDetail() {
+        return Detail;
+    }
+
+    public void setDetail(String detail) {
+        Detail = detail;
+    }
 
     public String getUuid() {
         return Uuid;

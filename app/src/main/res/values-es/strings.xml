@@ -22,4 +22,7 @@
     <string name="title_fragment_product_goes">Acompañalo con</string>
     <string name="title_fragment_product_grape">Uva</string>
     <string name="title_fragment_product_year">Año de origen</string>
+    <string name="title_product_quantity">Cantidad</string>
+    <string name="action_product_next">OK</string>
+    <string name="action_product_cancel">Cancelar</string>
 </resources>

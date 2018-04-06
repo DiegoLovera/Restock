@@ -1,6 +1,7 @@
 package com.lovera.diego.restock.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -9,11 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.lovera.diego.restock.AddDialogFragment;
 import com.lovera.diego.restock.ProductDialogFragment;
 import com.lovera.diego.restock.R;
 import com.lovera.diego.restock.models.Product;
@@ -46,19 +51,49 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
     //endregion
     //region onBindViewHolder
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.mProduct = mData.get(position);
         holder.mContext = this.mContext;
         holder.mProductName.setText(holder.mProduct.getName());
         holder.mProductPrice.setText(holder.mProduct.getPrice());
-        holder.mProductDescription.setText(holder.mProduct.getDescription());
+        holder.mProductDescription.setText(holder.mProduct.getDetail());
         holder.mProductJson = holder.mProduct.getUuid();
         Picasso.get()
                 .load(holder.mProduct.getImage())
                 .error(R.drawable.side_nav_bar)
                 .into(holder.mImageProduct);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
+                R.array.quantity, android.R.layout.select_dialog_item);
+        adapter.setDropDownViewResource(android.R.layout.select_dialog_item);
+        holder.mSpinner.setAdapter(adapter);
+        holder.mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                holder.setProductPrice(Integer.valueOf(holder.mProduct.getPrice()) * Integer.valueOf(parent.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        if (position + 1 == getItemCount()) {
+            // set bottom margin to 72dp.
+            setBottomMargin(holder.itemView, (int) (85 * Resources.getSystem().getDisplayMetrics().density));
+        } else {
+            // reset bottom margin back to zero. (your value may be different)
+            setBottomMargin(holder.itemView, 0);
+        }
     }
     //endregion
+    private static void setBottomMargin(View view, int bottomMargin) {
+        if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+            params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, bottomMargin);
+            view.requestLayout();
+        }
+    }
     //region getItemCount
     @Override
     public int getItemCount() {
@@ -78,6 +113,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         Context mContext;
         String mProductJson;
         ImageView mImageProduct;
+        Spinner mSpinner;
         //endregion
         //region Constructors
         ViewHolder(final View itemView) {
@@ -88,18 +124,18 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             this.mButtonAdd = itemView.findViewById(R.id.ProductItemAdd);
             this.mButtonMore = itemView.findViewById(R.id.ProductItemMore);
             this.mImageProduct = itemView.findViewById(R.id.image_product_item);
+            this.mSpinner = itemView.findViewById(R.id.spinner);
 
             this.mButtonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: ADD ACTION TO DE ADD BUTTON
+
                 }
             });
 
             this.mButtonMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Bundle bundle = new Bundle();
                     Gson gson = new Gson();
                     bundle.putString("productJson", gson.toJson(mProduct));
@@ -117,6 +153,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
         }
         //endregion
+        public void setProductPrice(int i){
+            mProductPrice.setText(String.valueOf(i));
+        }
     }
     //endregion
 }

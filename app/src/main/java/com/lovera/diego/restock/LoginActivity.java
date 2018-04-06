@@ -171,6 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
+                            RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                             Intent i = new Intent(LoginActivity.this,
                                     MainActivity.class);
                             startActivity(i);
@@ -192,20 +193,15 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithCredential:success");
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
+                            RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                             LoginManager.getInstance().logOut();
                             Intent i = new Intent(LoginActivity.this,
                                     MainActivity.class);
                             startActivity(i);
-                            //updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });
@@ -228,6 +224,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
+                            RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                             if (RestockApp.ACTUAL_USER != null) {
                                 startActivity(new Intent(LoginActivity.this,
                                         MainActivity.class));
