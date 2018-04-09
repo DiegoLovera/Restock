@@ -4,6 +4,10 @@ public class Country {
     private String Image;
     private String Name;
 
+    public Country(){
+
+    }
+
     public String getImage() {
         return Image;
     }

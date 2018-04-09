@@ -1,81 +1,83 @@
 package com.lovera.diego.restock.models;
 
+import com.google.firebase.database.PropertyName;
+
 /**
  * Created by Federico Lopez Pellicer on 01/04/2018.
  */
 
 public class User {
 
-    public String email;
-    public String dateOfBirth;
-    public String lat;
-    public String lng;
-    public String username;
-    public String phoneNumber;
-    public String profilePicture;
+    private String Email;
+    private String DateOfBirth;
+    private String Lat;
+    private String Lng;
+    private String Username;
+    private String PhoneNumber;
+    private String ProfilePicture;
 
     public User() {
 
     }
-
     public User (String email) {
-        this.email = email;
+        this.Email = email;
     }
 
+    @PropertyName("Email")
     public String getEmail() {
-        return email;
+        return Email;
     }
-
+    @PropertyName("Email")
     public void setEmail(String email) {
-        this.email = email;
+        this.Email = email;
     }
-
+    @PropertyName("DateOfBirth")
     public String getDateOfBirth() {
-        return dateOfBirth;
+        return DateOfBirth;
     }
-
+    @PropertyName("DateOfBirth")
     public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        this.DateOfBirth = dateOfBirth;
     }
-
+    @PropertyName("Lat")
     public String getLat() {
-        return lat;
+        return Lat;
     }
-
+    @PropertyName("Lat")
     public void setLat(String lat) {
-        this.lat = lat;
+        this.Lat = lat;
     }
-
+    @PropertyName("Lng")
     public String getLng() {
-        return lng;
+        return Lng;
     }
-
+    @PropertyName("Lng")
     public void setLng(String lng) {
-        this.lng = lng;
+        this.Lng = lng;
     }
-
+    @PropertyName("Username")
     public String getUsernameame() {
-        return username;
+        return Username;
     }
-
+    @PropertyName("Username")
     public void setUsername(String username) {
-        this.username = username;
+        this.Username = username;
     }
-
+    @PropertyName("PhoneNumber")
     public String getPhoneNumber() {
-        return phoneNumber;
+        return PhoneNumber;
     }
-
+    @PropertyName("PhoneNumber")
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.PhoneNumber = phoneNumber;
     }
-
+    @PropertyName("ProfilePicture")
     public String getProfilePicture() {
-        return profilePicture;
+        return ProfilePicture;
     }
-
+    @PropertyName("ProfilePicture")
     public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
+        this.ProfilePicture = profilePicture;
     }
 
 }
