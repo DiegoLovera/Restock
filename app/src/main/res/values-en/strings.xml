@@ -25,4 +25,8 @@
     <string name="title_product_quantity">Quantity</string>
     <string name="action_product_next">OK</string>
     <string name="action_product_cancel">Cancel</string>
+    <string name="message_product_added">Product added to your Shopping Cart</string>
+    <string name="message_cart_empty">Your Shopping Cart is empty</string>
+    <string name="tittle_total">Total:</string>
+    <string name="action_continue">Continue</string>
 </resources>

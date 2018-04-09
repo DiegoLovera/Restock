@@ -75,18 +75,23 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if (!RestockApp.ACTUAL_ORDER_CONTENT.isEmpty()) {
+                    startActivity(new Intent(view.getContext(), CartActivity.class));
+                } else {
+                    Snackbar.make(view, R.string.message_cart_empty, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
         //endregion
         //region RecyclerView setup
         mRecyclerView = findViewById(R.id.recycler_view_main_activity_content);
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         //endregion
         //region RecyclerView CategoryAdapter
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Category").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("Category").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mCategories.clear();
@@ -162,7 +167,7 @@ public class MainActivity extends AppCompatActivity
                 .load(RestockApp.ACTUAL_USER.getPhotoUrl())
                 .resize(150, 150)
                 .transform(new ImageRoundCorners())
-                .error(R.drawable.logo_dummy_restock)
+                .error(R.drawable.ic_launcher_background)
                 .into(mNavHeaderProfilePicture);
 
         TextView mNavHeaderProfileName = findViewById(R.id.NavHeaderProfileName);

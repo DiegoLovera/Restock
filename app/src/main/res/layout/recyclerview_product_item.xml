@@ -20,58 +20,61 @@
 
         <ImageView
             android:id="@+id/image_product_item"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/nav_header_height"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
             android:contentDescription="TODO"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/side_nav_bar" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/primaryColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_product_item" />
+            app:srcCompat="@drawable/side_nav_bar"
+            card_view:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/ProductItemName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="TextView"
+            android:textAlignment="textStart"
             android:textColor="@android:color/black"
-            android:textSize="24sp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/textView4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_product_item" />
+            app:layout_constraintTop_toTopOf="parent"
+            card_view:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="4dp"
             android:text="$"
             android:textColor="@color/primaryLightColor"
-            android:textSize="18sp"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ProductItemName"
             app:layout_constraintEnd_toStartOf="@+id/ProductItemPrice"
-            app:layout_constraintTop_toBottomOf="@+id/image_product_item" />
+            app:layout_constraintTop_toTopOf="@+id/ProductItemName"
+            app:layout_constraintVertical_bias="0.0"
+            card_view:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/ProductItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
             android:text="TextView"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_product_item" />
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ProductItemName"
+            app:layout_constraintEnd_toStartOf="@+id/image_product_item"
+            app:layout_constraintTop_toTopOf="@+id/ProductItemName"
+            app:layout_constraintVertical_bias="0.0"
+            card_view:ignore="HardcodedText" />
 
         <RatingBar
             android:id="@+id/ratingBar"
@@ -94,7 +97,8 @@
             android:layout_marginTop="8dp"
             android:text="4.7"
             app:layout_constraintStart_toEndOf="@+id/ratingBar"
-            app:layout_constraintTop_toBottomOf="@+id/ProductItemName" />
+            app:layout_constraintTop_toBottomOf="@+id/ProductItemName"
+            card_view:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/textView2"
@@ -104,35 +108,36 @@
             android:layout_marginTop="8dp"
             android:text="(51)"
             app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/ProductItemName" />
+            app:layout_constraintTop_toBottomOf="@+id/ProductItemName"
+            card_view:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/ProductItemDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="4dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus porta enim vitae enim luctus iaculis. Donec pretium placerat volutpat. "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            app:layout_constraintEnd_toStartOf="@+id/spinner"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+            card_view:ignore="HardcodedText" />
 
         <Spinner
             android:id="@+id/spinner"
+            style="@android:style/Widget.Material.Spinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="24dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:spinnerMode="dialog"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ProductItemMore"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ProductItemDescription" />
+            app:layout_constraintBottom_toBottomOf="@+id/ProductItemDescription"
+            app:layout_constraintEnd_toStartOf="@+id/image_product_item"
+            app:layout_constraintTop_toTopOf="@+id/ProductItemDescription" />
 
         <Button
             android:id="@+id/ProductItemAdd"
@@ -140,27 +145,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:text="ADD"
             android:textColor="@color/primaryLightColor"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ProductItemDescription" />
+            app:layout_constraintStart_toEndOf="@+id/ProductItemMore"
+            app:layout_constraintTop_toBottomOf="@+id/ProductItemDescription"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/ProductItemMore"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
-            android:layout_height="44dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:text="More"
             android:textColor="@color/primaryLightColor"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/ProductItemAdd"
-            app:layout_constraintTop_toBottomOf="@+id/ProductItemDescription" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ProductItemDescription"
+            app:layout_constraintVertical_bias="1.0" />
 
     </android.support.constraint.ConstraintLayout>
 

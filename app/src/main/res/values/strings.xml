@@ -10,7 +10,7 @@
     <string name="fb_login_protocol_scheme" translatable="false">fb1943884392593066</string>
     <string name="activity_login_verify_email_toast">Please verify your email address</string>
     <string name="activity_sign_up_signup_button">Sign Up</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="nav_header_title" translatable="false">Android Studio</string>
     <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
@@ -32,5 +32,10 @@
     <string name="title_product_quantity">Quantity</string>
     <string name="action_product_next">OK</string>
     <string name="action_product_cancel">Cancel</string>
+    <string name="message_product_added">Product added to your Shopping Cart</string>
+    <string name="message_cart_empty">Your Shopping Cart is empty</string>
+    <string name="tittle_total">Total:</string>
+    <string name="action_continue">Continue</string>
+    <string name="title_activity_map_order">Choose your location</string>
 
 </resources>

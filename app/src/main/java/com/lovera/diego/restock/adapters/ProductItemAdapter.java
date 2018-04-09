@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -17,10 +18,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.lovera.diego.restock.AddDialogFragment;
 import com.lovera.diego.restock.ProductDialogFragment;
 import com.lovera.diego.restock.R;
+import com.lovera.diego.restock.RestockApp;
+import com.lovera.diego.restock.common.Serializer;
+import com.lovera.diego.restock.models.OrderContent;
 import com.lovera.diego.restock.models.Product;
 import com.squareup.picasso.Picasso;
 
@@ -69,7 +75,8 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         holder.mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                holder.setProductPrice(Integer.valueOf(holder.mProduct.getPrice()) * Integer.valueOf(parent.getSelectedItem().toString()));
+                holder.mTotal = String.valueOf(Integer.valueOf(holder.mProduct.getPrice()) * Integer.valueOf(parent.getSelectedItem().toString()));
+                holder.mProductPrice.setText(holder.mTotal);
             }
 
             @Override
@@ -87,6 +94,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         }
     }
     //endregion
+    //region setBottonMargin
     private static void setBottomMargin(View view, int bottomMargin) {
         if (view.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
@@ -94,6 +102,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             view.requestLayout();
         }
     }
+    //endregion
     //region getItemCount
     @Override
     public int getItemCount() {
@@ -114,6 +123,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         String mProductJson;
         ImageView mImageProduct;
         Spinner mSpinner;
+        String mTotal;
         //endregion
         //region Constructors
         ViewHolder(final View itemView) {
@@ -129,7 +139,17 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             this.mButtonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    RestockApp.ACTUAL_ORDER_CONTENT.add(
+                            new OrderContent(
+                                    "",
+                                    mProduct.getUuid(),
+                                    mSpinner.getSelectedItem().toString(),
+                                    mTotal
+                            )
+                    );
+                    RestockApp.ACTUAL_PRODUCT_LIST.add(mProduct);
+                    Snackbar.make(v, R.string.message_product_added, Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
                 }
             });
 
@@ -137,8 +157,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    Gson gson = new Gson();
-                    bundle.putString("productJson", gson.toJson(mProduct));
+                    bundle.putString("productJson", Serializer.Serialize(mProduct));
                     FragmentManager manager = ((AppCompatActivity)mContext).getSupportFragmentManager();
                     ProductDialogFragment productDialogFragment = new ProductDialogFragment();
                     productDialogFragment.setArguments(bundle);
@@ -153,9 +172,6 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
 
         }
         //endregion
-        public void setProductPrice(int i){
-            mProductPrice.setText(String.valueOf(i));
-        }
     }
     //endregion
 }

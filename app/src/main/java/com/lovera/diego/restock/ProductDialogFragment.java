@@ -18,6 +18,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.lovera.diego.restock.common.ImageRoundCorners;
+import com.lovera.diego.restock.common.Serializer;
 import com.lovera.diego.restock.models.Country;
 import com.lovera.diego.restock.models.Product;
 import com.squareup.picasso.Picasso;
@@ -46,8 +47,7 @@ public class ProductDialogFragment extends DialogFragment {
 
 
         if (getArguments() != null) {
-            Gson gson = new Gson();
-            mProduct = gson.fromJson(getArguments().getString("productJson"), Product.class);
+            mProduct = Serializer.Deserialize(getArguments().getString("productJson"), Product.class);
         }
 
         textName.setText(mProduct.getName());
@@ -58,7 +58,7 @@ public class ProductDialogFragment extends DialogFragment {
         textYear.setText(mProduct.getYear());
         Picasso.get()
                 .load(mProduct.getImage())
-                .error(R.drawable.logo_dummy_restock)
+                .error(R.drawable.side_nav_bar)
                 .into(imageProduct);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Country");
@@ -73,7 +73,7 @@ public class ProductDialogFragment extends DialogFragment {
                             .load(mCountry.getImage())
                             .resize(80, 80)
                             .transform(new ImageRoundCorners())
-                            .error(R.drawable.logo_dummy_restock)
+                            .error(R.drawable.side_nav_bar)
                             .into(mImageCountry);
                 }
             }

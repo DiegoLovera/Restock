@@ -6,6 +6,17 @@ public class OrderContent {
     private String Quantity;
     private String Total;
 
+    public OrderContent(){
+
+    }
+
+    public OrderContent(String order, String product, String quantity, String total){
+        this.Order = order;
+        this.Product = product;
+        this.Quantity = quantity;
+        this.Total = total;
+    }
+
     public String getOrder() {
         return Order;
     }
