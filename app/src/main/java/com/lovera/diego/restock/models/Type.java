@@ -6,6 +6,10 @@ public class Type {
     private String Uuid;
     private String ImageUrl;
 
+    public Type(){
+
+    }
+
     public String getName() {
         return Name;
     }

@@ -17,6 +17,10 @@ public class Product {
     private String Year;
     private String Uuid;
 
+    public Product(){
+
+    }
+
 
     public String getDetail() {
         return Detail;

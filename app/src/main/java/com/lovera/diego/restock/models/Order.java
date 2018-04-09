@@ -1,40 +1,53 @@
 package com.lovera.diego.restock.models;
 
+import com.google.firebase.database.PropertyName;
+
 public class Order {
     private String Lat;
     private String Lng;
     private String Status;
     private String User;
 
+    public Order(){
+
+    }
+    @PropertyName("Lat")
     public String getLat() {
         return Lat;
     }
 
-    public void setLat(String lat) {
-        Lat = lat;
+    @PropertyName("Lat")
+    public void setLat(String Lat) {
+        this.Lat = Lat;
     }
 
+    @PropertyName("Lng")
     public String getLng() {
         return Lng;
     }
 
-    public void setLng(String lng) {
-        Lng = lng;
+    @PropertyName("Lng")
+    public void setLng(String Lng) {
+        this.Lng = Lng;
     }
 
+    @PropertyName("Status")
     public String getStatus() {
         return Status;
     }
 
-    public void setStatus(String status) {
-        Status = status;
+    @PropertyName("Status")
+    public void setStatus(String Status) {
+        this.Status = Status;
     }
 
+    @PropertyName("User")
     public String getUser() {
         return User;
     }
 
-    public void setUser(String user) {
-        User = user;
+    @PropertyName("User")
+    public void setUser(String User) {
+        this.User = User;
     }
 }
