@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.lovera.diego.restock.models.Order;
 import com.lovera.diego.restock.models.OrderContent;
 
 public class PaymentActivity extends AppCompatActivity {
@@ -42,6 +43,10 @@ public class PaymentActivity extends AppCompatActivity {
                     mOrderContentRef.push().setValue(orderContent);
                 }
                 Toast.makeText(v.getContext(), "Successful order", Toast.LENGTH_LONG).show();
+                RestockApp.ACTUAL_ORDER_CONTENT.clear();
+                RestockApp.ACTUAL_PRODUCT_LIST.clear();
+                RestockApp.ACTUAL_ORDER = new Order();
+                RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                 startActivity(new Intent(v.getContext(), MainActivity.class));
             }
         });
