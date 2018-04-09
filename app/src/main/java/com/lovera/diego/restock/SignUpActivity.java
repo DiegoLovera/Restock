@@ -20,17 +20,13 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.lovera.diego.restock.models.User;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -38,14 +34,11 @@ public class SignUpActivity extends AppCompatActivity {
     //TODO: Falta capturar todos los datos que sean necesarios para crear una cuenta y todas las validaciones necesarias
 
     private FirebaseAuth mAuth;
-    private FirebaseDatabase database;
+    private FirebaseDatabase mDatabase;
     private DatabaseReference mRef;
-    private FirebaseUser currentUser;
-    private EditText signUpActivityEditEmail, signUpActivityEditPassword;
-    private TextInputLayout signUpActivityLayoutEmail, signUpActivityLayoutPassword;
-    private Button signUpActivitySignUpButton;
-    private LoginButton signUpFacebookButton;
-    private CallbackManager callbackManager;
+    private FirebaseUser mCurrentUser;
+    private EditText mSignUpActivityEditEmail, mSignUpActivityEditPassword;
+    private CallbackManager mCallbackManager;
 
     //Activity lifecycle
     //region onCreate
@@ -54,20 +47,20 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        mRef = database.getReference();
+        mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference();
 
-        signUpActivityEditEmail = findViewById(R.id.signUpActivityTextInputEditEmail);
-        signUpActivityEditPassword = findViewById(R.id.signUpActivityTextInputEditPassword);
-        signUpActivityLayoutEmail = findViewById(R.id.signUpActivityTextInputLayoutEmail);
-        signUpActivityLayoutPassword = findViewById(R.id.signUpActivityTextInputLayoutPassword);
+        mSignUpActivityEditEmail = findViewById(R.id.signUpActivityTextInputEditEmail);
+        mSignUpActivityEditPassword = findViewById(R.id.signUpActivityTextInputEditPassword);
+        TextInputLayout signUpActivityLayoutEmail = findViewById(R.id.signUpActivityTextInputLayoutEmail);
+        TextInputLayout signUpActivityLayoutPassword = findViewById(R.id.signUpActivityTextInputLayoutPassword);
 
-        signUpActivitySignUpButton = findViewById(R.id.signUpActivityLoginButton);
+        Button signUpActivitySignUpButton = findViewById(R.id.signUpActivityLoginButton);
 
-        signUpFacebookButton = findViewById(R.id.sign_up_button_facebook);
-        callbackManager = CallbackManager.Factory.create();
+        LoginButton signUpFacebookButton = findViewById(R.id.sign_up_button_facebook);
+        mCallbackManager = CallbackManager.Factory.create();
         signUpFacebookButton.setReadPermissions("email", "public_profile");
-        signUpFacebookButton.registerCallback(callbackManager,new FacebookCallback<LoginResult>() {
+        signUpFacebookButton.registerCallback(mCallbackManager,new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 //Log.d(TAG, "facebook:onSuccess:" + loginResult);
@@ -90,8 +83,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUpActivitySignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = signUpActivityEditEmail.getText().toString();
-                String password = signUpActivityEditPassword.getText().toString();
+                String email = mSignUpActivityEditEmail.getText().toString();
+                String password = mSignUpActivityEditPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(SignUpActivity.this,
@@ -122,8 +115,8 @@ public class SignUpActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        //FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        //FirebaseUser mCurrentUser = mAuth.getCurrentUser();
+        //updateUI(mCurrentUser);
     }
     //endregion
     //Facebook SignUp
@@ -157,7 +150,7 @@ public class SignUpActivity extends AppCompatActivity {
     //region onActivityResult
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
     //endregion
@@ -171,13 +164,13 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //-------------------------------------------------------------------------------//
                             // Insertar el correo del usuario en la base de datos
-                            // Se obtiene el codigo de usario actual que se acaba de crear y se asigna a currentUser
-                            currentUser = mAuth.getCurrentUser();
+                            // Se obtiene el codigo de usario actual que se acaba de crear y se asigna a mCurrentUser
+                            mCurrentUser = mAuth.getCurrentUser();
                             //Se almacena el Uid del usuario en la variable userId
-                            String userId = currentUser.getUid();
-                            User user = new User(signUpActivityEditEmail.getText().toString());
+                            String userId = mCurrentUser.getUid();
+                            User user = new User(mSignUpActivityEditEmail.getText().toString());
                             //Se especifica que se va a insertar en el nodo "User" bajo el userId del usuario actual
-                            mRef = database.getReference().child("User").child(userId);
+                            mRef = mDatabase.getReference().child("User").child(userId);
                             //Se inserta el objeto user de tipo User
                             mRef.setValue(user);
                             //------------------------------------------------------------------------------------//

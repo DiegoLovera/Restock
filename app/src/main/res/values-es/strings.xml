@@ -10,4 +10,23 @@
     <string name="activity_login_verify_email_toast">"Por favor verifique su dirección de correo electrónico "</string>
     <string name="activity_sign_up_signup_button">Registrarse</string>
     <string name="activity_main_title">Stock</string>
+    <string name="error_out_of_stock">Agotado</string>
+    <string name="msg_activity_login_or">O</string>
+    <string name="title_drawer_profile">Perfil</string>
+    <string name="action_settings">Configuraciones</string>
+    <string name="title_drawer_sign_out">Cerrar sesión</string>
+    <string name="title_drawer_settings">Configuración</string>
+    <string name="title_drawer_terms">Términos y política de privacidad</string>
+    <string name="title_drawer_history">Historial</string>
+    <string name="title_fragment_product_description">Descripción</string>
+    <string name="title_fragment_product_goes">Acompañalo con</string>
+    <string name="title_fragment_product_grape">Uva</string>
+    <string name="title_fragment_product_year">Año de origen</string>
+    <string name="title_product_quantity">Cantidad</string>
+    <string name="action_product_next">OK</string>
+    <string name="action_product_cancel">Cancelar</string>
+    <string name="message_product_added">Producto añadido a tu carrito de compras</string>
+    <string name="message_cart_empty">Tu carrito de compras esta vacio</string>
+    <string name="tittle_total">Total:</string>
+    <string name="action_continue">Continuar</string>
 </resources>

@@ -13,21 +13,26 @@ public class LandingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
 
-        Button landingActivitySignUpButton = findViewById(R.id.landingActivitySignUpButton);
-        Button landingActivitySignInButton = findViewById(R.id.landingActivitySignInButton);
+        Button buttonLandingActivitySignIn = findViewById(R.id.button_landing_activity_sign_in);
+        Button buttonLandingActivitySignUp = findViewById(R.id.button_landing_activity_sign_up);
 
-        landingActivitySignInButton.setOnClickListener(new View.OnClickListener() {
+        buttonLandingActivitySignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(v.getContext(), LoginActivity.class));
             }
         });
 
-        landingActivitySignUpButton.setOnClickListener(new View.OnClickListener() {
+        buttonLandingActivitySignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(v.getContext(), SignUpActivity.class));
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 }
