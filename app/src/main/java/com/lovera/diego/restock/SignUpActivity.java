@@ -151,7 +151,7 @@ public class SignUpActivity extends AppCompatActivity {
                             startActivity(i);
                             //updateUI(user);
                         } else {
-                                Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                Toast.makeText(SignUpActivity.this, "Email already in use or check your connection.",
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
@@ -176,7 +176,7 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             //-------------------------------------------------------------------------------//
                             // Insertar el correo del usuario en la base de datos
-                            // Se obtiene el codigo de usario actual que se acaba de crear y se asigna a mCurrentUser
+                            // Se obtiene el codigo de usuario actual que se acaba de crear y se asigna a mCurrentUser
                             mCurrentUser = mAuth.getCurrentUser();
                             //Se almacena el Uid del usuario en la variable userId
                             String userId = mCurrentUser.getUid();
@@ -191,7 +191,7 @@ public class SignUpActivity extends AppCompatActivity {
                             finish();
                             //updateUI(user);
                         } else {
-                            Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                            Toast.makeText(SignUpActivity.this, "Email already in use or check your connection.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
