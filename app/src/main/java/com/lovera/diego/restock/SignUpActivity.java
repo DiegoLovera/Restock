@@ -130,6 +130,18 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            //-------------------------------------------------------------------------------//
+                            // Insertar el correo del usuario en la base de datos
+                            // Se obtiene el codigo de usario actual que se acaba de crear y se asigna a mCurrentUser
+                            mCurrentUser = mAuth.getCurrentUser();
+                            //Se almacena el Uid del usuario en la variable userId
+                            String userId = mCurrentUser.getUid();
+                            User user = new User(mSignUpActivityEditEmail.getText().toString());
+                            //Se especifica que se va a insertar en el nodo "User" bajo el userId del usuario actual
+                            mRef = mDatabase.getReference().child("User").child(userId);
+                            //Se inserta el objeto user de tipo User
+                            mRef.setValue(user);
+                            //------------------------------------------------------------------------------------//
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "signInWithCredential:success");
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
