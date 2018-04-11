@@ -136,11 +136,18 @@ public class SignUpActivity extends AppCompatActivity {
                             mCurrentUser = mAuth.getCurrentUser();
                             //Se almacena el Uid del usuario en la variable userId
                             String userId = mCurrentUser.getUid();
-                            User user = new User(mSignUpActivityEditEmail.getText().toString());
-                            //Se especifica que se va a insertar en el nodo "User" bajo el userId del usuario actual
-                            mRef = mDatabase.getReference().child("User").child(userId);
-                            //Se inserta el objeto user de tipo User
-                            mRef.setValue(user);
+
+
+
+                            if (mCurrentUser.getEmail() != null) {
+
+                                User cUser = new User(mCurrentUser.getEmail(), "", "", "", "", "", "");
+                                mRef = mDatabase.getReference().child("User").child(userId);
+                                mRef.setValue(cUser);
+                            }
+                            else {
+
+                            }
                             //------------------------------------------------------------------------------------//
                             // Sign in success, update UI with the signed-in user's information
                             //Log.d(TAG, "signInWithCredential:success");
@@ -180,7 +187,7 @@ public class SignUpActivity extends AppCompatActivity {
                             mCurrentUser = mAuth.getCurrentUser();
                             //Se almacena el Uid del usuario en la variable userId
                             String userId = mCurrentUser.getUid();
-                            User user = new User(mSignUpActivityEditEmail.getText().toString());
+                            User user = new User(mSignUpActivityEditEmail.getText().toString(), "", "", "", "", "", "");
                             //Se especifica que se va a insertar en el nodo "User" bajo el userId del usuario actual
                             mRef = mDatabase.getReference().child("User").child(userId);
                             //Se inserta el objeto user de tipo User

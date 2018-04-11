@@ -35,6 +35,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.lovera.diego.restock.models.User;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
 public class LoginActivity extends AppCompatActivity {
@@ -45,6 +48,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mLoginActivityEditEmail, mLoginActivityEditPassword;
     private TextInputLayout mLoginActivityLayoutEmail, mLoginActivityLayoutPassword;
     private FirebaseAuth mAuth;
+    private FirebaseUser mCurrentUser;
+    private DatabaseReference mRef;
+    private FirebaseDatabase mDatabase;
     private CallbackManager mCallbackManager;
     private int mLoginSelected = 0;
     //endregion
@@ -55,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
+        mRef = mDatabase.getReference();
         //region UI elements assignation
         mLoginActivityLayoutEmail = findViewById(R.id.text_input_layout_login_activity_email);
         mLoginActivityEditEmail = findViewById(R.id.text_input_edit_login_activity_email);
@@ -170,6 +178,20 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            //-------------------------------------------------------------------------------//
+                            mCurrentUser = mAuth.getCurrentUser();
+                            String userId = mCurrentUser.getUid();
+
+                            if (mCurrentUser.getEmail() != null) {
+
+                                User cUser = new User(mCurrentUser.getEmail(), "", "", "", "", "", "");
+                                mRef = mDatabase.getReference().child("User").child(userId);
+                                mRef.setValue(cUser);
+                            }
+                            else {
+
+                            }
+                            //------------------------------------------------------------------------------------//
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                             Intent i = new Intent(LoginActivity.this,
@@ -193,6 +215,20 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            //-------------------------------------------------------------------------------//
+                            mCurrentUser = mAuth.getCurrentUser();
+                            String userId = mCurrentUser.getUid();
+
+                            if (mCurrentUser.getEmail() != null) {
+
+                                User cUser = new User(mCurrentUser.getEmail(), "", "", "", "", "", "");
+                                mRef = mDatabase.getReference().child("User").child(userId);
+                                mRef.setValue(cUser);
+                            }
+                            else {
+
+                            }
+                            //------------------------------------------------------------------------------------//
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                             LoginManager.getInstance().logOut();

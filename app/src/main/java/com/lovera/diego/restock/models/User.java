@@ -19,8 +19,15 @@ public class User {
     public User() {
 
     }
-    public User (String email) {
+    public User (String email, String dateOfBirth, String lat, String lng,
+                 String username, String phoneNumber, String profilePicture) {
         this.Email = email;
+        this.DateOfBirth = dateOfBirth;
+        this.Lat = lat;
+        this.Lng = lng;
+        this.Username = username;
+        this.PhoneNumber = phoneNumber;
+        this.ProfilePicture = profilePicture;
     }
 
     @PropertyName("Email")
