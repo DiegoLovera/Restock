@@ -18,10 +18,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
-import com.lovera.diego.restock.AddDialogFragment;
 import com.lovera.diego.restock.ProductDialogFragment;
 import com.lovera.diego.restock.R;
 import com.lovera.diego.restock.RestockApp;

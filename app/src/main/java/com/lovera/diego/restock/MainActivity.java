@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.lovera.diego.restock.adapters.CategoryItemAdapter;
 import com.lovera.diego.restock.adapters.ProductItemAdapter;
 import com.lovera.diego.restock.adapters.TypeItemAdapter;
@@ -128,6 +129,16 @@ public class MainActivity extends AppCompatActivity
         mNavigationView = findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         //endregion
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        if (refreshedToken != null){
+            //insert to the database
+            if (RestockApp.ACTUAL_USER != null){
+                FirebaseDatabase.getInstance().getReference("User")
+                        .child(RestockApp.ACTUAL_USER.getUid())
+                        .child("Token").setValue(refreshedToken);
+            }
+        }
     }
     //endregion
     //region onStart

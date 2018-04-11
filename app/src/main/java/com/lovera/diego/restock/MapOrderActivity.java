@@ -101,7 +101,7 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
                     .build();
         }
 
-        mMapView = findViewById(R.id.mapView);
+        mMapView = findViewById(R.id.mapView_order);
         if (mMapView != null){
             mMapView.onCreate(null);
             mMapView.onResume();

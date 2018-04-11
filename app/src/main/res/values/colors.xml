@@ -16,4 +16,8 @@
     <color name="secondaryTextColor">#ffffff</color>
 
     <color name="Trasnparent">#000000</color>
+
+    <color name="red">#b71c1c</color>
+    <color name="orange">#f57f17</color>
+    <color name="green">#43a047</color>
 </resources>

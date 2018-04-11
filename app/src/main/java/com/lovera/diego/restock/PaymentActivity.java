@@ -14,6 +14,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.lovera.diego.restock.models.Order;
 import com.lovera.diego.restock.models.OrderContent;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 public class PaymentActivity extends AppCompatActivity {
 
     private DatabaseReference mOrderRef;
@@ -35,7 +41,16 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
+                RestockApp.ACTUAL_ORDER.setTotal(String.valueOf(calculateTotal()));
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, 1);
+                SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy", Locale.UK);
+                String formatted = format1.format(cal.getTime());
+                RestockApp.ACTUAL_ORDER.setDate(formatted);
                 String Key = mOrderRef.push().getKey();
+                RestockApp.ACTUAL_ORDER.setUuid(Key);
+
                 mOrderRef.child(Key).setValue(RestockApp.ACTUAL_ORDER);
 
                 for (OrderContent orderContent : RestockApp.ACTUAL_ORDER_CONTENT){
