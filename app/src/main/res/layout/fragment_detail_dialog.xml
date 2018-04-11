@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:text="Pending"
+        android:text="@string/text_status_order_detail_dialog"
         android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapView_history_detail" />

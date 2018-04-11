@@ -29,4 +29,13 @@
     <string name="message_cart_empty">Tu carrito de compras esta vacio</string>
     <string name="tittle_total">Total:</string>
     <string name="action_continue">Continuar</string>
+    <string name="activity_map_order_current_location">Usar ubicación actual</string>
+    <string name="activity_map_order_map_location">Usar ubicación del mapa</string>
+    <string name="text_status_order_detail_dialog">Pendiente</string>
+    <string name="recycler_detail_history_product_name">Nombre</string>
+    <string name="recycler_detail_history_product_quantity">Cantidad</string>
+    <string name="recycler_detail_history_product_total">Total</string>
+    <string name="recyclerview_history_item_detail">DETALLE</string>
+    <string name="recyclerview_product_item_more">MAS</string>
+    <string name="recyclerview_product_item_add">AGREGAR</string>
 </resources>

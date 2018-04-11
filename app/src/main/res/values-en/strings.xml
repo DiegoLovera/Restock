@@ -8,7 +8,7 @@
     <string name="activity_login_email_password_error">Enter the password</string>
     <string name="activity_login_verify_email_toast">please verify your email address</string>
     <string name="activity_sign_up_signup_button">Sign Up</string>
-    <string name="activity_login_login_button">Sign In</string>
+    <string name="activity_login_login_button">Log In</string>
     <string name="activity_main_title">Stock</string>
     <string name="error_out_of_stock">Out of stock</string>
     <string name="msg_activity_login_or">Or</string>
@@ -29,4 +29,13 @@
     <string name="message_cart_empty">Your Shopping Cart is empty</string>
     <string name="tittle_total">Total:</string>
     <string name="action_continue">Continue</string>
+    <string name="activity_map_order_current_location">Use current location</string>
+    <string name="activity_map_order_map_location">Use location on map</string>
+    <string name="text_status_order_detail_dialog">Pending</string>
+    <string name="recycler_detail_history_product_name">Name</string>
+    <string name="recycler_detail_history_product_quantity">Quantity</string>
+    <string name="recycler_detail_history_product_total">Total</string>
+    <string name="recyclerview_history_item_detail">DETAIL</string>
+    <string name="recyclerview_product_item_more">MORE</string>
+    <string name="recyclerview_product_item_add">ADD</string>
 </resources>
