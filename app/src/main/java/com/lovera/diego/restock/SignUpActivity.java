@@ -25,8 +25,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.lovera.diego.restock.models.Type;
 import com.lovera.diego.restock.models.User;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -130,37 +135,43 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //-------------------------------------------------------------------------------//
-                            // Insertar el correo del usuario en la base de datos
-                            // Se obtiene el codigo de usario actual que se acaba de crear y se asigna a mCurrentUser
+
                             mCurrentUser = mAuth.getCurrentUser();
-                            //Se almacena el Uid del usuario en la variable userId
-                            String userId = mCurrentUser.getUid();
+                            final String userId = mCurrentUser.getUid();
 
+                            Query query = mRef.child("User")
+                                    .orderByChild(mCurrentUser.getUid());
 
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
 
-                            if (mCurrentUser.getEmail() != null) {
+                                    } else {
+                                        if (mCurrentUser.getEmail() != null) {
 
-                                User cUser = new User(mCurrentUser.getEmail(), "", "", "", "", "", "");
-                                mRef = mDatabase.getReference().child("User").child(userId);
-                                mRef.setValue(cUser);
-                            }
-                            else {
+                                            User cUser = new User(mCurrentUser.getEmail(), "", "", "", mCurrentUser.getDisplayName(), "", mCurrentUser.getPhotoUrl().toString());
+                                            mRef = mDatabase.getReference().child("User").child(userId);
+                                            mRef.setValue(cUser);
+                                        }
+                                        else {
 
-                            }
-                            //------------------------------------------------------------------------------------//
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithCredential:success");
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             LoginManager.getInstance().logOut();
-                            Intent i = new Intent(SignUpActivity.this,
-                                    MainActivity.class);
-                            startActivity(i);
-                            //updateUI(user);
+                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                         } else {
-                                Toast.makeText(SignUpActivity.this, "Email already in use or check your connection.",
+                            Toast.makeText(SignUpActivity.this, "Email already in use or check your connection.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
                     }
                 });

@@ -12,7 +12,7 @@ public class User {
     private String DateOfBirth;
     private String Lat;
     private String Lng;
-    private String Username;
+    private String Name;
     private String PhoneNumber;
     private String ProfilePicture;
 
@@ -20,12 +20,12 @@ public class User {
 
     }
     public User (String email, String dateOfBirth, String lat, String lng,
-                 String username, String phoneNumber, String profilePicture) {
+                 String name, String phoneNumber, String profilePicture) {
         this.Email = email;
         this.DateOfBirth = dateOfBirth;
         this.Lat = lat;
         this.Lng = lng;
-        this.Username = username;
+        this.Name = name;
         this.PhoneNumber = phoneNumber;
         this.ProfilePicture = profilePicture;
     }
@@ -62,13 +62,13 @@ public class User {
     public void setLng(String lng) {
         this.Lng = lng;
     }
-    @PropertyName("Username")
-    public String getUsernameame() {
-        return Username;
+    @PropertyName("Name")
+    public String getName() {
+        return Name;
     }
-    @PropertyName("Username")
-    public void setUsername(String username) {
-        this.Username = username;
+    @PropertyName("Name")
+    public void setName(String name) {
+        this.Name = name;
     }
     @PropertyName("PhoneNumber")
     public String getPhoneNumber() {
