@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -59,6 +60,7 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_order);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mCardViewActualLocation = findViewById(R.id.card_actual_location);
         mCardViewSelectedLocation = findViewById(R.id.card_selected_location);
@@ -109,6 +111,16 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
         }
 
         createLocationRequest();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

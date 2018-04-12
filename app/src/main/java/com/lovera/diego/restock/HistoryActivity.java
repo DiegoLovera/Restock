@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,7 @@ public class HistoryActivity extends AppCompatActivity implements HistoryItemAda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mOrderList = new ArrayList<>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Order");
@@ -52,6 +54,16 @@ public class HistoryActivity extends AppCompatActivity implements HistoryItemAda
         mRecyclerViewHistory = findViewById(R.id.recycler_view_history_activity);
         mRecyclerViewHistory.setHasFixedSize(true);
         mRecyclerViewHistory.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if (id==android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     //region onCartItemClick
