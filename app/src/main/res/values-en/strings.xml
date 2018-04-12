@@ -38,4 +38,7 @@
     <string name="recyclerview_history_item_detail">DETAIL</string>
     <string name="recyclerview_product_item_more">MORE</string>
     <string name="recyclerview_product_item_add">ADD</string>
+    <string name="buttonText_activity_profile_information_update">UPDATE</string>
+    <string name="nameText_activity_profile_information">Name</string>
+    <string name="phoneNumberText_activity_profile_information">Phone number</string>
 </resources>
