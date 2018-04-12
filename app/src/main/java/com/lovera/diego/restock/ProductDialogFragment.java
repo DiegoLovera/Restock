@@ -7,6 +7,9 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,10 +47,17 @@ public class ProductDialogFragment extends DialogFragment {
         TextView textYear = view.findViewById(R.id.text_view_year_fragment_product);
         mImageCountry = view.findViewById(R.id.image_origin_place_fragment_product);
         ImageView imageProduct = view.findViewById(R.id.image_product_fragment_product);
-
+        WebView webView = view.findViewById(R.id.web_view_model);
 
         if (getArguments() != null) {
             mProduct = Serializer.Deserialize(getArguments().getString("productJson"), Product.class);
+        }
+        if (mProduct.getModel() == null || mProduct.getModel().isEmpty()){
+            webView.setVisibility(View.GONE);
+        } else {
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.setWebViewClient(new WebViewClient());
+            webView.loadUrl(mProduct.getModel());
         }
 
         textName.setText(mProduct.getName());

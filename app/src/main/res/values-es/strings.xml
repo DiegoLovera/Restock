@@ -29,6 +29,12 @@
     <string name="message_cart_empty">Tu carrito de compras esta vacio</string>
     <string name="tittle_total">Total:</string>
     <string name="action_continue">Continuar</string>
+    <string name="title_activity_login">Iniciar sesión</string>
+    <string name="title_activity_sign_up">Registro</string>
+    <string name="title_activity_profile_information">Perfil</string>
+    <string name="title_activity_history">Historial</string>
+    <string name="title_activity_settings">Configuraciones</string>
+    <string name="title_activity_cart">Carrito de compras</string>
     <string name="activity_map_order_current_location">Usar ubicación actual</string>
     <string name="activity_map_order_map_location">Usar ubicación del mapa</string>
     <string name="text_status_order_detail_dialog">Pendiente</string>

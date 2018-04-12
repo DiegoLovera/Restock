@@ -49,8 +49,6 @@ public class HistoryActivity extends AppCompatActivity implements HistoryItemAda
 
             }
         });
-        //todo: get todos las ordenes de 1 persona
-
         mRecyclerViewHistory = findViewById(R.id.recycler_view_history_activity);
         mRecyclerViewHistory.setHasFixedSize(true);
         mRecyclerViewHistory.setLayoutManager(new LinearLayoutManager(this));

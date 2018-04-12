@@ -6,10 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lovera.diego.restock.R;
 import com.lovera.diego.restock.models.Category;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapter.ViewHolder> {
@@ -39,6 +42,10 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Category actualCategory = mData.get(position);
         holder.mCategoryTittle.setText(actualCategory.getName());
+        Picasso.get()
+                .load(actualCategory.getImageUrl())
+                .error(R.drawable.craft_preview)
+                .into(holder.mCategoryImage);
     }
     //endregion
     //region getItemCount
@@ -66,6 +73,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
     //region Class ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //region Fields
+        ImageView mCategoryImage;
         TextView mCategoryTittle;
         //endregion
 
@@ -73,6 +81,7 @@ public class CategoryItemAdapter extends RecyclerView.Adapter<CategoryItemAdapte
         ViewHolder(View itemView) {
             super(itemView);
             mCategoryTittle = itemView.findViewById(R.id.MainItemTittle);
+            mCategoryImage = itemView.findViewById(R.id.image_category_adapter);
             itemView.setOnClickListener(this);
         }
         //endregion

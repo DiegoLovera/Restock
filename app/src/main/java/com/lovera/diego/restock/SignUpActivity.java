@@ -9,6 +9,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -39,6 +41,8 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseUser mCurrentUser;
     private EditText mSignUpActivityEditEmail, mSignUpActivityEditPassword;
     private CallbackManager mCallbackManager;
+    private ProgressBar mProgressBar;
+    private LinearLayout mLinearLayout;
 
     //Activity lifecycle
     //region onCreate
@@ -49,6 +53,14 @@ public class SignUpActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference();
+        //region ProgressBar setup
+        mLinearLayout = findViewById(R.id.layout_login_progress);
+        mLinearLayout.setVisibility(View.INVISIBLE);
+        mProgressBar = findViewById(R.id.progressBar_login);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setMax(100);
+        mProgressBar.setIndeterminate(true);
+        //endregion
 
         mSignUpActivityEditEmail = findViewById(R.id.signUpActivityTextInputEditEmail);
         mSignUpActivityEditPassword = findViewById(R.id.signUpActivityTextInputEditPassword);
@@ -103,6 +115,8 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
                 else {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    mLinearLayout.setVisibility(View.VISIBLE);
                     createAccount(email, password);
                 }
 
@@ -115,15 +129,13 @@ public class SignUpActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-        //FirebaseUser mCurrentUser = mAuth.getCurrentUser();
-        //updateUI(mCurrentUser);
     }
     //endregion
     //Facebook SignUp
     //region handleFacebookAccessToken
     private void handleFacebookAccessToken(AccessToken token) {
-        //Log.d(TAG, "handleFacebookAccessToken:" + token);
-        //TODO: Al iniciar sesión con facebook debemos validar que ya haya ingresado toda la información necesaria para conituar en casa de una compra
+        mProgressBar.setVisibility(View.VISIBLE);
+        mLinearLayout.setVisibility(View.VISIBLE);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -156,10 +168,14 @@ public class SignUpActivity extends AppCompatActivity {
                             Intent i = new Intent(SignUpActivity.this,
                                     MainActivity.class);
                             startActivity(i);
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
                             //updateUI(user);
                         } else {
                                 Toast.makeText(SignUpActivity.this, "Email already in use or check your connection.",
                                     Toast.LENGTH_SHORT).show();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
                             //updateUI(null);
                         }
                     }
@@ -196,10 +212,14 @@ public class SignUpActivity extends AppCompatActivity {
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                             finish();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
                             //updateUI(user);
                         } else {
                             Toast.makeText(SignUpActivity.this, "Email already in use or check your connection.",
                                     Toast.LENGTH_SHORT).show();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
                         }
                     }
                 });
