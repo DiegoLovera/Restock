@@ -37,8 +37,12 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.lovera.diego.restock.models.User;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
@@ -198,6 +202,37 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
+                            mCurrentUser = mAuth.getCurrentUser();
+                            final String userId = mCurrentUser.getUid();
+
+                            Query query = mRef.child("User")
+                                    .orderByChild(mCurrentUser.getUid());
+
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+
+                                    } else {
+                                        if (mCurrentUser.getEmail() != null) {
+
+                                            User cUser = new User(mCurrentUser.getEmail(), "", "", "", mCurrentUser.getDisplayName(), "", mCurrentUser.getPhotoUrl().toString());
+                                            mRef = mDatabase.getReference().child("User").child(userId);
+                                            mRef.setValue(cUser);
+                                        }
+                                        else {
+
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                             mProgressBar.setVisibility(View.INVISIBLE);
@@ -223,20 +258,35 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //-------------------------------------------------------------------------------//
                             mCurrentUser = mAuth.getCurrentUser();
-                            String userId = mCurrentUser.getUid();
+                            final String userId = mCurrentUser.getUid();
 
-                            if (mCurrentUser.getEmail() != null) {
+                            Query query = mRef.child("User")
+                                    .orderByChild(mCurrentUser.getUid());
 
-                                User cUser = new User(mCurrentUser.getEmail(), "", "", "", "", "", "");
-                                mRef = mDatabase.getReference().child("User").child(userId);
-                                mRef.setValue(cUser);
-                            }
-                            else {
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
 
-                            }
-                            //------------------------------------------------------------------------------------//
+                                    } else {
+                                        if (mCurrentUser.getEmail() != null) {
+
+                                            User cUser = new User(mCurrentUser.getEmail(), "", "", "", mCurrentUser.getDisplayName(), "", mCurrentUser.getPhotoUrl().toString());
+                                            mRef = mDatabase.getReference().child("User").child(userId);
+                                            mRef.setValue(cUser);
+                                        }
+                                        else {
+
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                             LoginManager.getInstance().logOut();
