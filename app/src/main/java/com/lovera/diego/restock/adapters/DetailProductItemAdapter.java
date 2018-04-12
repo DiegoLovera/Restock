@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.lovera.diego.restock.R;
+import com.lovera.diego.restock.common.ImageRoundCorners;
 import com.lovera.diego.restock.models.OrderContent;
 import com.lovera.diego.restock.models.Product;
 import com.squareup.picasso.Picasso;
@@ -61,9 +62,10 @@ public class DetailProductItemAdapter extends RecyclerView.Adapter<DetailProduct
                     mProduct = dataSnapshot.getValue(Product.class);
                     if (mProduct != null){
                         holder.mTextName.setText(mProduct.getName());
-                        holder.mTextQuantity.setText(mProduct.getQuantity());
+                        holder.mTextQuantity.setText(holder.mOrderContent.getQuantity());
                         Picasso.get()
                                 .load(mProduct.getImage())
+                                .transform(new ImageRoundCorners())
                                 .error(R.drawable.side_nav_bar)
                                 .into(holder.mImageProduct);
                     }

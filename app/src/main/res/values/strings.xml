@@ -37,5 +37,11 @@
     <string name="tittle_total">Total:</string>
     <string name="action_continue">Continue</string>
     <string name="title_activity_map_order">Choose your location</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_sign_up">Sign up</string>
+    <string name="title_activity_profile_information">Profile</string>
+    <string name="title_activity_history">History</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_cart">Shopping cart</string>
 
 </resources>

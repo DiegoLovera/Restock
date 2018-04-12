@@ -15,6 +15,8 @@ public class Product {
     private String Quantity;
     private String Type;
     private String Year;
+    private String Rating;
+    private String Model;
     private String Uuid;
 
     public Product(){
@@ -132,6 +134,23 @@ public class Product {
 
     public void setYear(String year) {
         Year = year;
+    }
+
+
+    public String getRating() {
+        return Rating;
+    }
+
+    public void setRating(String raiting) {
+        Rating = raiting;
+    }
+
+    public String getModel() {
+        return Model;
+    }
+
+    public void setModel(String model) {
+        Model = model;
     }
 
 

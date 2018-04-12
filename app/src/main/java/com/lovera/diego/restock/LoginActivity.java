@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -53,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private CallbackManager mCallbackManager;
     private int mLoginSelected = 0;
+    private ProgressBar mProgressBar;
+    private LinearLayout mLinearLayout;
     //endregion
 
     //region onCreate
@@ -63,6 +67,14 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference();
+        //region ProgressBar setup
+        mLinearLayout = findViewById(R.id.layout_login_progress);
+        mLinearLayout.setVisibility(View.INVISIBLE);
+        mProgressBar = findViewById(R.id.progressBar_login);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mProgressBar.setMax(100);
+        mProgressBar.setIndeterminate(true);
+        //endregion
         //region UI elements assignation
         mLoginActivityLayoutEmail = findViewById(R.id.text_input_layout_login_activity_email);
         mLoginActivityEditEmail = findViewById(R.id.text_input_edit_login_activity_email);
@@ -86,6 +98,8 @@ public class LoginActivity extends AppCompatActivity {
         loginGoogleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                mLinearLayout.setVisibility(View.VISIBLE);
                 mLoginSelected = 1;
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -118,6 +132,8 @@ public class LoginActivity extends AppCompatActivity {
         loginFacebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                mLinearLayout.setVisibility(View.VISIBLE);
                 mLoginSelected = 2;
             }
         });
@@ -129,6 +145,10 @@ public class LoginActivity extends AppCompatActivity {
         loginActivityButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mProgressBar.setVisibility(View.VISIBLE);
+                mLinearLayout.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 login();
             }
         });
@@ -145,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
         //updateUI(currentUser);
     }
     //endregion
@@ -178,26 +198,16 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //-------------------------------------------------------------------------------//
-                            mCurrentUser = mAuth.getCurrentUser();
-                            String userId = mCurrentUser.getUid();
-
-                            if (mCurrentUser.getEmail() != null) {
-
-                                User cUser = new User(mCurrentUser.getEmail(), "", "", "", "", "", "");
-                                mRef = mDatabase.getReference().child("User").child(userId);
-                                mRef.setValue(cUser);
-                            }
-                            else {
-
-                            }
-                            //------------------------------------------------------------------------------------//
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
                             Intent i = new Intent(LoginActivity.this,
                                     MainActivity.class);
                             startActivity(i);
                         } else {
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -207,8 +217,6 @@ public class LoginActivity extends AppCompatActivity {
     //endregion
     //region handleFacebookAccessToken
     private void handleFacebookAccessToken(final AccessToken token) {
-        //Log.d(TAG, "handleFacebookAccessToken:" + token);
-        //TODO: Al iniciar sesión con facebook debemos validar que ya haya ingresado toda la información necesaria para conituar en casa de una compra
         final AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -232,10 +240,14 @@ public class LoginActivity extends AppCompatActivity {
                             RestockApp.ACTUAL_USER = mAuth.getCurrentUser();
                             RestockApp.ACTUAL_ORDER.setUser(RestockApp.ACTUAL_USER.getUid());
                             LoginManager.getInstance().logOut();
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
                             Intent i = new Intent(LoginActivity.this,
                                     MainActivity.class);
                             startActivity(i);
                         } else {
+                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -264,10 +276,16 @@ public class LoginActivity extends AppCompatActivity {
                             if (RestockApp.ACTUAL_USER != null) {
                                 startActivity(new Intent(LoginActivity.this,
                                         MainActivity.class));
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                mLinearLayout.setVisibility(View.INVISIBLE);
+                                mProgressBar.setVisibility(View.INVISIBLE);
                             }
                         } else {
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                            mLinearLayout.setVisibility(View.INVISIBLE);
+                            mProgressBar.setVisibility(View.INVISIBLE);
                         }
                     }
                 });

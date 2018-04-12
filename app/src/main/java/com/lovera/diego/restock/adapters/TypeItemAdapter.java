@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lovera.diego.restock.R;
 import com.lovera.diego.restock.models.Type;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -40,6 +42,10 @@ public class TypeItemAdapter extends RecyclerView.Adapter<TypeItemAdapter.ViewHo
     public void onBindViewHolder(@NonNull TypeItemAdapter.ViewHolder holder, int position) {
         Type actualType = mData.get(position);
         holder.mTypeTittle.setText(actualType.getName());
+        Picasso.get()
+                .load(actualType.getImageUrl())
+                .error(R.drawable.craft_preview)
+                .into(holder.mTypeImage);
     }
     //endregion
     //region getItemCount
@@ -68,11 +74,13 @@ public class TypeItemAdapter extends RecyclerView.Adapter<TypeItemAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         //region Fields
         TextView mTypeTittle;
+        ImageView mTypeImage;
         //endregion
         //region Constructors
         ViewHolder(View itemView) {
             super(itemView);
             mTypeTittle = itemView.findViewById(R.id.TypeItemTittle);
+            mTypeImage = itemView.findViewById(R.id.image_type_adapter);
             itemView.setOnClickListener(this);
         }
         //endregion

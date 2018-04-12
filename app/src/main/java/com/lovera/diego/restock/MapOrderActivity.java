@@ -114,11 +114,10 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(this);
-        final double lat = 1;
-        final double lng = 1;
+        final double lat = 21.1566218;
+        final double lng = -86.8667966;
         mMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -126,7 +125,6 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
             public void onMapClick(LatLng point) {
                 mMap.clear();
                 mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)));
-                mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
 
                 markerLat = String.valueOf(point.latitude);
                 markerLng = String.valueOf(point.longitude);

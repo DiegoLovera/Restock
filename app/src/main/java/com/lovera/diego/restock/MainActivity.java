@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Product> mProducts = new ArrayList<>();
     private Category mCategorySelected = new Category();
     private Type mTypeSelected = new Type();
+    private ProgressBar mProgressBar;
     //endregion
 
     //region onCreate
@@ -84,6 +86,10 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+        //endregion
+        //region ProgressBar Setup
+        mProgressBar = findViewById(R.id.progressBar_content_main);
+        mProgressBar.setVisibility(View.VISIBLE);
         //endregion
         //region RecyclerView setup
         mRecyclerView = findViewById(R.id.recycler_view_main_activity_content);
@@ -228,7 +234,6 @@ public class MainActivity extends AppCompatActivity
     //region onCategoryItemClick
     @Override
     public void onCategoryItemClick(View view, int position) {
-        //TODO: Aqui hacer el filtrado de los productos pasandole parametros segun la categoria que se haya elegido al siguiente adapter
         mCategorySelected = mCategoryItemAdapter.getItem(position);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         Query query = reference.child("Type")
@@ -304,6 +309,7 @@ public class MainActivity extends AppCompatActivity
         mCategoryItemAdapter = new CategoryItemAdapter(this, mCategories);
         mCategoryItemAdapter.setClickListener(this);
         mRecyclerView.setAdapter(mCategoryItemAdapter);
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
     //endregion
     //region setUpTypesAdapter

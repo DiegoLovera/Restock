@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -58,6 +59,10 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         holder.mContext = this.mContext;
         holder.mProductName.setText(holder.mProduct.getName());
         holder.mProductPrice.setText(holder.mProduct.getPrice());
+        holder.mRatingBar.setMax(5);
+        holder.mRatingBar.setNumStars(5);
+        holder.mTextRatingPlain.setText(holder.mProduct.getRating());
+        holder.mRatingBar.setRating(Float.parseFloat(holder.mProduct.getRating()));
         holder.mProductDescription.setText(holder.mProduct.getDetail());
         holder.mProductJson = holder.mProduct.getUuid();
         Picasso.get()
@@ -120,6 +125,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
         ImageView mImageProduct;
         Spinner mSpinner;
         String mTotal;
+        RatingBar mRatingBar;
+        TextView mTextRatingNumber;
+        TextView mTextRatingPlain;
         //endregion
         //region Constructors
         ViewHolder(final View itemView) {
@@ -131,6 +139,12 @@ public class ProductItemAdapter extends RecyclerView.Adapter<ProductItemAdapter.
             this.mButtonMore = itemView.findViewById(R.id.ProductItemMore);
             this.mImageProduct = itemView.findViewById(R.id.image_product_item);
             this.mSpinner = itemView.findViewById(R.id.spinner);
+            this.mRatingBar = itemView.findViewById(R.id.ratingBar_product);
+            this.mTextRatingNumber = itemView.findViewById(R.id.text_rating_number);
+            this.mTextRatingPlain = itemView.findViewById(R.id.text_rating_plain);
+            int numero = (int) (Math.random() * 100) + 1;
+            String numberText = "(" + String.valueOf(numero) + ")";
+            mTextRatingNumber.setText(numberText);
 
             this.mButtonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
