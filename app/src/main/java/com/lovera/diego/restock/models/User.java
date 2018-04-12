@@ -14,13 +14,14 @@ public class User {
     private String Lng;
     private String Name;
     private String PhoneNumber;
+    private String Token;
     private String ProfilePicture;
 
     public User() {
 
     }
     public User (String email, String dateOfBirth, String lat, String lng,
-                 String name, String phoneNumber, String profilePicture) {
+                 String name, String phoneNumber, String profilePicture, String token) {
         this.Email = email;
         this.DateOfBirth = dateOfBirth;
         this.Lat = lat;
@@ -28,8 +29,16 @@ public class User {
         this.Name = name;
         this.PhoneNumber = phoneNumber;
         this.ProfilePicture = profilePicture;
+        this.Token = token;
     }
-
+    @PropertyName("Token")
+    public String getToken() {
+        return Token;
+    }
+    @PropertyName("Token")
+    public void setToken(String token) {
+        Token = token;
+    }
     @PropertyName("Email")
     public String getEmail() {
         return Email;

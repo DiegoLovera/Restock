@@ -43,6 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.lovera.diego.restock.models.User;
 import com.shobhitpuri.custombuttons.GoogleSignInButton;
 
@@ -217,7 +218,13 @@ public class LoginActivity extends AppCompatActivity {
                                     } else {
                                         if (mCurrentUser.getEmail() != null) {
 
-                                            User cUser = new User(mCurrentUser.getEmail(), "", "", "", mCurrentUser.getDisplayName(), "", mCurrentUser.getPhotoUrl().toString());
+                                            User cUser = new User(mCurrentUser.getEmail(),
+                                                    "", "", "",
+                                                    mCurrentUser.getDisplayName(),
+                                                    "",
+                                                    mCurrentUser.getPhotoUrl().toString(),
+                                                    FirebaseInstanceId.getInstance().getToken());
+
                                             mRef = mDatabase.getReference().child("User").child(userId);
                                             mRef.setValue(cUser);
                                         }
@@ -272,7 +279,12 @@ public class LoginActivity extends AppCompatActivity {
                                     } else {
                                         if (mCurrentUser.getEmail() != null) {
 
-                                            User cUser = new User(mCurrentUser.getEmail(), "", "", "", mCurrentUser.getDisplayName(), "", mCurrentUser.getPhotoUrl().toString());
+                                            User cUser = new User(mCurrentUser.getEmail(),
+                                                    "", "", "",
+                                                    mCurrentUser.getDisplayName(), "",
+                                                    mCurrentUser.getPhotoUrl().toString(),
+                                                    FirebaseInstanceId.getInstance().getToken());
+
                                             mRef = mDatabase.getReference().child("User").child(userId);
                                             mRef.setValue(cUser);
                                         }
