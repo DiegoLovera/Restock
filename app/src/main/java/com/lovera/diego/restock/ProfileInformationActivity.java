@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.lovera.diego.restock.models.User;
 
 public class ProfileInformationActivity extends AppCompatActivity {
@@ -65,7 +66,9 @@ public class ProfileInformationActivity extends AppCompatActivity {
                     //-------------------------------------------------------------------------------//
                     mCurrentUser = mAuth.getCurrentUser();
                     String userId = mCurrentUser.getUid();
-                    User user = new User("", dateOfBirth, "", "", name, phoneNumber, "");
+                    User user = new User(mCurrentUser.getEmail(), dateOfBirth, "", "", name,
+                            phoneNumber, (mCurrentUser.getPhotoUrl() != null ? mCurrentUser.getPhotoUrl().toString() : "" ),
+                            FirebaseInstanceId.getInstance().getToken());
                     mRef = mDatabase.getReference().child("User").child(userId);
                     mRef.setValue(user);
                     //------------------------------------------------------------------------------------//

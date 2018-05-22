@@ -33,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.lovera.diego.restock.models.User;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -58,9 +59,9 @@ public class SignUpActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance();
         mRef = mDatabase.getReference();
         //region ProgressBar setup
-        mLinearLayout = findViewById(R.id.layout_login_progress);
+        mLinearLayout = findViewById(R.id.layout_signup_progress);
         mLinearLayout.setVisibility(View.INVISIBLE);
-        mProgressBar = findViewById(R.id.progressBar_login);
+        mProgressBar = findViewById(R.id.progressBar_signup);
         mProgressBar.setVisibility(View.INVISIBLE);
         mProgressBar.setMax(100);
         mProgressBar.setIndeterminate(true);
@@ -161,7 +162,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     } else {
                                         if (mCurrentUser.getEmail() != null) {
 
-                                            User cUser = new User(mCurrentUser.getEmail(), "", "", "", mCurrentUser.getDisplayName(), "", mCurrentUser.getPhotoUrl().toString());
+                                            User cUser = new User(mCurrentUser.getEmail(), "", "", "", mCurrentUser.getDisplayName(), "", mCurrentUser.getPhotoUrl().toString(),  FirebaseInstanceId.getInstance().getToken());
                                             mRef = mDatabase.getReference().child("User").child(userId);
                                             mRef.setValue(cUser);
                                         }
@@ -209,7 +210,7 @@ public class SignUpActivity extends AppCompatActivity {
                             mCurrentUser = mAuth.getCurrentUser();
                             //Se almacena el Uid del usuario en la variable userId
                             String userId = mCurrentUser.getUid();
-                            User user = new User(mSignUpActivityEditEmail.getText().toString(), "", "", "", "", "", "");
+                            User user = new User(mSignUpActivityEditEmail.getText().toString(), "", "", "", "", "", "",  FirebaseInstanceId.getInstance().getToken());
                             //Se especifica que se va a insertar en el nodo "User" bajo el userId del usuario actual
                             mRef = mDatabase.getReference().child("User").child(userId);
                             //Se inserta el objeto user de tipo User

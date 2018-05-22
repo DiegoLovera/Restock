@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.lovera.diego.restock.Listeners.RequestListener;
 import com.lovera.diego.restock.adapters.HistoryItemAdapter;
 import com.lovera.diego.restock.models.Order;
 
@@ -24,7 +25,8 @@ public class HistoryActivity extends AppCompatActivity implements HistoryItemAda
     private RecyclerView mRecyclerViewHistory;
     private HistoryItemAdapter mHistoryItemAdapter;
     private List<Order> mOrderList;
-
+    private RequestListener mRequestListener;
+    //TODO Cambiar ele hecho de que cada que un valor cambio carga de nuevo todo el adapter, solo deberia cambiar el dato que haya cambiado
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +42,15 @@ public class HistoryActivity extends AppCompatActivity implements HistoryItemAda
                 if (dataSnapshot.exists()) {
                     mOrderList.clear();
                     for (DataSnapshot typeSnapshot : dataSnapshot.getChildren()) {
-                        mOrderList.add(typeSnapshot.getValue(Order.class));
+                        Order order = typeSnapshot.getValue(Order.class);
+                        if (order != null){
+                            switch (order.getStatus()) {
+                                case "3":
+                                    mRequestListener.OnRequestStatusChanged(order);
+                                    break;
+                            }
+                            mOrderList.add(order);
+                        }
                     }
                     setRecyclerHistoryAdapter();
                 }

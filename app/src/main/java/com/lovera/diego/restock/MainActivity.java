@@ -31,11 +31,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.lovera.diego.restock.Listeners.RequestListener;
 import com.lovera.diego.restock.adapters.CategoryItemAdapter;
 import com.lovera.diego.restock.adapters.ProductItemAdapter;
 import com.lovera.diego.restock.adapters.TypeItemAdapter;
 import com.lovera.diego.restock.common.ImageRoundCorners;
 import com.lovera.diego.restock.models.Category;
+import com.lovera.diego.restock.models.Order;
 import com.lovera.diego.restock.models.Product;
 import com.lovera.diego.restock.models.Type;
 import com.squareup.picasso.Picasso;
@@ -45,7 +47,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         CategoryItemAdapter.ItemClickListener,
-        TypeItemAdapter.ItemClickListener
+        TypeItemAdapter.ItemClickListener,
+        RequestListener
 {
 
     //region Fields
@@ -327,6 +330,11 @@ public class MainActivity extends AppCompatActivity
         mProductItemAdapter = new ProductItemAdapter(this, mProducts);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         mRecyclerView.setAdapter(mProductItemAdapter);
+    }
+
+    @Override
+    public void OnRequestStatusChanged(Order order) {
+        //TODO Show a toast or snackbar asking for a review of the service
     }
     //endregion
 }
