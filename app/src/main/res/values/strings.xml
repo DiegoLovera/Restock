@@ -36,12 +36,24 @@
     <string name="message_cart_empty">Your Shopping Cart is empty</string>
     <string name="tittle_total">Total:</string>
     <string name="action_continue">Continue</string>
-    <string name="title_activity_map_order">Choose your location</string>
+    <string name="title_activity_map_order" translatable="false">Choose your location</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_sign_up">Sign up</string>
     <string name="title_activity_profile_information">Profile</string>
     <string name="title_activity_history">History</string>
     <string name="title_activity_settings">Settings</string>
     <string name="title_activity_cart">Shopping cart</string>
+    <string name="activity_map_order_current_location">default</string>
+    <string name="activity_map_order_map_location">default</string>
+    <string name="text_status_order_detail_dialog">default</string>
+    <string name="recycler_detail_history_product_name">default</string>
+    <string name="recycler_detail_history_product_quantity">default</string>
+    <string name="recycler_detail_history_product_total">default</string>
+    <string name="recyclerview_history_item_detail">default</string>
+    <string name="recyclerview_product_item_more">default</string>
+    <string name="recyclerview_product_item_add">default</string>
+    <string name="buttonText_activity_profile_information_update">default</string>
+    <string name="nameText_activity_profile_information">default</string>
+    <string name="phoneNumberText_activity_profile_information">default</string>
 
 </resources>
