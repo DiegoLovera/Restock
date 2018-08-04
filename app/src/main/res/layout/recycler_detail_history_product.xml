@@ -16,7 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/side_nav_bar" />
+        app:srcCompat="@drawable/side_nav_bar"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView6"
@@ -76,7 +77,8 @@
         android:text="TextView"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/text_quantity_detail_item"
@@ -87,7 +89,8 @@
         android:text="TextView"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/text_name_detail_item" />
+        app:layout_constraintTop_toBottomOf="@+id/text_name_detail_item"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/text_total_detail_item"
@@ -98,5 +101,6 @@
         android:text="TextView"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/text_quantity_detail_item" />
+        app:layout_constraintTop_toBottomOf="@+id/text_quantity_detail_item"
+        tools:ignore="HardcodedText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

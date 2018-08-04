@@ -24,7 +24,8 @@
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView_history_detail" />
+        app:layout_constraintTop_toBottomOf="@+id/mapView_history_detail"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/text_total_dialog_fragment"
@@ -39,7 +40,8 @@
         app:layout_constraintEnd_toStartOf="@+id/text_status_order_detail_dialog"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/eee"
-        app:layout_constraintTop_toBottomOf="@+id/mapView_history_detail" />
+        app:layout_constraintTop_toBottomOf="@+id/mapView_history_detail"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/text_status_order_detail_dialog"

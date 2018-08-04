@@ -47,6 +47,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_login_activity_email"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp">
@@ -62,6 +63,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_login_activity_password"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp">
@@ -75,9 +77,8 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_login_activity_login"
-            style="@style/ColorButtonRipple"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -125,9 +126,9 @@
                 app:isDarkTheme="false" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_login_activity_sign_up"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

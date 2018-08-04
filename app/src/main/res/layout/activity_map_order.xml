@@ -14,8 +14,9 @@
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_actual_location"
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -44,7 +45,8 @@
                 android:src="@drawable/ic_actual_location"
                 map:layout_constraintBottom_toBottomOf="parent"
                 map:layout_constraintStart_toStartOf="parent"
-                map:layout_constraintTop_toTopOf="parent" />
+                map:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textView63"
@@ -62,10 +64,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_selected_location"
+        style="@style/Widget.MaterialComponents.CardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -93,7 +96,8 @@
                 android:src="@drawable/ic_place"
                 map:layout_constraintBottom_toBottomOf="parent"
                 map:layout_constraintStart_toStartOf="parent"
-                map:layout_constraintTop_toTopOf="parent" />
+                map:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/textView6ewe"
@@ -111,6 +115,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

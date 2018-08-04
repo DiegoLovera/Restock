@@ -15,16 +15,17 @@
             android:id="@+id/text_view_name_fragment_product"
             android:layout_width="wrap_content"
             android:layout_height="31dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:text="TextView"
             android:textColor="#212121"
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/image_origin_place_fragment_product"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/text_view_brand_fragment_product"
@@ -34,22 +35,25 @@
             android:text="TextView"
             android:textColor="#212121"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_name_fragment_product" />
+            app:layout_constraintTop_toBottomOf="@+id/text_view_name_fragment_product"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/image_origin_place_fragment_product"
             android:layout_width="wrap_content"
             android:layout_height="42dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toTopOf="@+id/card_actual_location"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_actual_location"
+            style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -64,12 +68,14 @@
                 android:src="@drawable/side_nav_bar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_origin_place_fragment_product" />
-        </androidx.cardview.widget.CardView>
+                app:layout_constraintTop_toBottomOf="@+id/image_origin_place_fragment_product"
+                tools:ignore="ContentDescription" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_selected_location"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,14 +109,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view__title_description_fragment_product" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_view__title_description_fragment_product"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView3"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -140,16 +148,16 @@
                     android:layout_height="wrap_content"
                     android:text="TextView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_title_goes_fragment_product" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_title_goes_fragment_product"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView4"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -179,16 +187,18 @@
                     android:layout_height="wrap_content"
                     android:text="TextView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_title_grape_fragment_product" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_title_grape_fragment_product"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
 
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView2"
-            android:layout_width="match_parent"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -219,15 +229,14 @@
                     android:layout_height="wrap_content"
                     android:text="TextView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_title_year_fragment_product" />
-
-
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_title_year_fragment_product"
+                    tools:ignore="HardcodedText" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <WebView
             android:id="@+id/web_view_model"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="300dp"
             android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"

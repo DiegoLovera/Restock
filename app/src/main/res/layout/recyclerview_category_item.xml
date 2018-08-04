@@ -21,7 +21,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/image_category_adapter"
         app:layout_constraintEnd_toEndOf="@+id/image_category_adapter"
         app:layout_constraintStart_toStartOf="@+id/image_category_adapter"
-        app:layout_constraintTop_toTopOf="@+id/image_category_adapter" />
+        app:layout_constraintTop_toTopOf="@+id/image_category_adapter"
+        tools:ignore="HardcodedText" />
 
     <ImageView
         android:id="@+id/image_category_adapter"
@@ -32,5 +33,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/craft_preview" />
+        app:srcCompat="@drawable/craft_preview"
+        tools:ignore="ContentDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

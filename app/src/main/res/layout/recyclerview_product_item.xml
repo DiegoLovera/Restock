@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     style="@style/CardView.Light"
@@ -27,7 +27,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/side_nav_bar"
-            card_view:ignore="HardcodedText" />
+            card_view:ignore="ContentDescription,HardcodedText" />
 
         <TextView
             android:id="@+id/ProductItemName"
@@ -139,36 +139,36 @@
             app:layout_constraintEnd_toStartOf="@+id/image_product_item"
             app:layout_constraintTop_toTopOf="@+id/ProductItemDescription" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/ProductItemAdd"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
             android:text="ADD"
-            android:textColor="@color/primaryLightColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/ProductItemMore"
-            app:layout_constraintTop_toBottomOf="@+id/ProductItemDescription"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <Button
-            android:id="@+id/ProductItemMore"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:text="MORE "
-            android:textColor="@color/primaryLightColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ProductItemDescription"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0"
+            card_view:ignore="HardcodedText" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ProductItemMore"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="MORE"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ProductItemAdd"
+            app:layout_constraintTop_toBottomOf="@+id/ProductItemDescription"
+            app:layout_constraintVertical_bias="1.0"
+            card_view:ignore="HardcodedText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
