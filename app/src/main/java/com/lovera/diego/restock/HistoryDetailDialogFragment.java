@@ -91,7 +91,7 @@ public class HistoryDetailDialogFragment extends DialogFragment {
                 MarkerOptions marker = new MarkerOptions().position(new LatLng(lat, lng));
                 googleMap.addMarker(marker);
 
-                CameraPosition camera = CameraPosition.builder().target(new LatLng(lat,lng)).zoom(18).bearing(0).tilt(45).build();
+                CameraPosition camera = CameraPosition.builder().target(new LatLng(lat,lng)).zoom(18).bearing(0).tilt(0).build();
 
                 googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camera));
             }
@@ -101,7 +101,7 @@ public class HistoryDetailDialogFragment extends DialogFragment {
         Query query = reference.orderByChild("Order").equalTo(mOrder.getUuid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot typeSnapshot : dataSnapshot.getChildren()) {
                         mOrderContentList.add(typeSnapshot.getValue(OrderContent.class));
@@ -111,7 +111,7 @@ public class HistoryDetailDialogFragment extends DialogFragment {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });

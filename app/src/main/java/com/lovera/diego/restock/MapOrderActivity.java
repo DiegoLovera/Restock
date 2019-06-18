@@ -1,32 +1,32 @@
 package com.lovera.diego.restock;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -36,20 +36,23 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+
+import java.util.Objects;
 
 public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMarkerClickListener, LocationListener {
 
     private GoogleMap mMap;
-    private CardView mCardViewActualLocation;
-    private CardView mCardViewSelectedLocation;
-    private MapView mMapView;
+    private FusedLocationProviderClient mFusedLocationClient;
     private GoogleApiClient mGoogleApiClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-    private Location mLastLocation;
     private LocationRequest mLocationRequest;
     private boolean mLocationUpdateState;
+    private LocationCallback mLocationCallback;
     private static final int REQUEST_CHECK_SETTINGS = 2;
     private String currentLat;
     private String currentLng;
@@ -60,10 +63,10 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_order);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        mCardViewActualLocation = findViewById(R.id.card_actual_location);
-        mCardViewSelectedLocation = findViewById(R.id.card_selected_location);
+        CardView mCardViewActualLocation = findViewById(R.id.card_actual_location);
+        CardView mCardViewSelectedLocation = findViewById(R.id.card_selected_location);
 
         mCardViewActualLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +98,8 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
             }
         });
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -103,7 +108,7 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
                     .build();
         }
 
-        mMapView = findViewById(R.id.mapView_order);
+        MapView mMapView = findViewById(R.id.mapView_order);
         if (mMapView != null){
             mMapView.onCreate(null);
             mMapView.onResume();
@@ -111,46 +116,35 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
         }
 
         createLocationRequest();
-    }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        if (id==android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(this);
-        final double lat = 21.1566218;
-        final double lng = -86.8667966;
-        mMap = googleMap;
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
+        mLocationCallback = new LocationCallback() {
             @Override
-            public void onMapClick(LatLng point) {
-                mMap.clear();
-                mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)));
-
-                markerLat = String.valueOf(point.latitude);
-                markerLng = String.valueOf(point.longitude);
+            public void onLocationResult(LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    moveMap(location);
+                }
             }
-        });
-
-        CameraPosition camera = CameraPosition.builder().target(new LatLng(lat,lng)).zoom(18).bearing(0).tilt(45).build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camera));
+        };
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mGoogleApiClient.isConnected() && !mLocationUpdateState) {
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
 
     @Override
@@ -162,12 +156,47 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        mLastLocation = location;
-        if (null != mLastLocation) {
-            //placeMarkerOnMap(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
-            //setUpMap(); //Probar al caminar
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+            if (resultCode == RESULT_OK) {
+                mLocationUpdateState = true;
+                startLocationUpdates();
+            }
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(this);
+        final double lat = 21.1566218;
+        final double lng = -86.8667966;
+        mMap = googleMap;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng point) {
+                mMap.clear();
+                mMap.addMarker(new MarkerOptions().position(new LatLng(point.latitude, point.longitude)));
+
+                markerLat = String.valueOf(point.latitude);
+                markerLng = String.valueOf(point.longitude);
+            }
+        });
+
+        CameraPosition camera = CameraPosition.builder()
+                .target(new LatLng(lat,lng))
+                .zoom(18)
+                .bearing(0)
+                .tilt(0)
+                .build();
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camera));
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        moveMap(location);
     }
 
     @Override
@@ -193,6 +222,16 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
         return false;
     }
 
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setUpMap() {
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -203,20 +242,14 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
 
         mMap.setMyLocationEnabled(true);
 
-        LocationAvailability locationAvailability =
-                LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient);
-        if (null != locationAvailability && locationAvailability.isLocationAvailable()) {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            if (mLastLocation != null) {
-                LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation
-                        .getLongitude());
-                //add pin at user's location
-                //placeMarkerOnMap(currentLocation);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
-                currentLat = String.valueOf(mLastLocation.getLatitude());
-                currentLng = String.valueOf(mLastLocation.getLongitude());
-            }
-        }
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        moveMap(location);
+                    }
+                });
     }
 
     protected void placeMarkerOnMap(LatLng location) {
@@ -234,75 +267,72 @@ public class MapOrderActivity extends AppCompatActivity implements OnMapReadyCal
             return;
         }
         //2
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest,
-                this);
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, null);
     }
 
-    @SuppressLint("RestrictedApi")
     protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        // 2
+        mLocationRequest = LocationRequest.create();
         mLocationRequest.setInterval(10000);
-        // 3
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(mLocationRequest);
 
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient,
-                        builder.build());
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
 
-        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+        task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
             @Override
-            public void onResult(@NonNull LocationSettingsResult result) {
-                final Status status = result.getStatus();
-                switch (status.getStatusCode()) {
-                    // 4
-                    case LocationSettingsStatusCodes.SUCCESS:
-                        mLocationUpdateState = true;
-                        startLocationUpdates();
-                        break;
-                    // 5
-                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        try {
-                            status.startResolutionForResult(MapOrderActivity.this, REQUEST_CHECK_SETTINGS);
-                        } catch (IntentSender.SendIntentException e) {
-                        }
-                        break;
-                    // 6
-                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                        break;
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                mLocationUpdateState = true;
+                startLocationUpdates();
+            }
+        });
+
+        task.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(MapOrderActivity.this,
+                                REQUEST_CHECK_SETTINGS);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
+                    }
                 }
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CHECK_SETTINGS) {
-            if (resultCode == RESULT_OK) {
-                mLocationUpdateState = true;
-                startLocationUpdates();
+    private Location mLastLocation;
+    private void moveMap(Location location) {
+        if (location != null) {
+            LatLng currentLocation = new LatLng(location.getLatitude(), location
+                    .getLongitude());
+            if (mLastLocation != null) {
+                LatLng lastLocation = new LatLng(mLastLocation.getLatitude(),
+                        mLastLocation.getLongitude());
+                if (currentLocation.latitude != lastLocation.latitude
+                        || currentLocation.longitude != lastLocation.longitude) {
+                    //placeMarkerOnMap(currentLocation);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
+                    currentLat = String.valueOf(location.getLatitude());
+                    currentLng = String.valueOf(location.getLongitude());
+                    mLastLocation = location;
+                }
+            } else {
+                //placeMarkerOnMap(currentLocation);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
+                currentLat = String.valueOf(location.getLatitude());
+                currentLng = String.valueOf(location.getLongitude());
+                mLastLocation = location;
             }
-        }
-    }
-
-    // 2
-    @Override
-    protected void onPause() {
-        super.onPause();
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-    }
-
-    // 3
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mGoogleApiClient.isConnected() && !mLocationUpdateState) {
-            startLocationUpdates();
         }
     }
 }
